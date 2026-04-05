@@ -18,20 +18,32 @@ export interface Food {
   brand: string | null
   barcode: string | null
   image_url: string | null
-  source: 'manual' | 'photo-ai' | 'openfoodfacts' | 'calforlife' | 'fatsecret' | 'usda' | 'excel-import' | 'community'
+  source: string
   verified: boolean
   tags: string[] | null
   created_at: string
   updated_at: string
+  created_by: string | null
 }
 
+export type FoodInsert = Omit<Food, 'id' | 'created_at' | 'updated_at'>
+
+import type { BlogPost } from './blog'
+
+// Simplified Database type — we use explicit typing instead of letting
+// Supabase infer types, to avoid 'never' issues with complex generics
 export interface Database {
   public: {
     Tables: {
       foods: {
         Row: Food
-        Insert: Omit<Food, 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Omit<Food, 'id'>>
+        Insert: Partial<Food> & { name_th: string; slug: string; calories: number }
+        Update: Partial<Food>
+      }
+      blog_posts: {
+        Row: BlogPost
+        Insert: Partial<BlogPost> & { title: string; slug: string; content: string }
+        Update: Partial<BlogPost>
       }
     }
   }

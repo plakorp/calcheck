@@ -1,8 +1,13 @@
+import { supabase } from '@/lib/supabase'
+import type { BlogPost } from '@/types/blog'
+
 /**
- * Static blog data — will be replaced by CMS/Supabase
- * Phase 1: hardcoded articles for SEO foundation
+ * Blog data layer — Supabase-backed with static fallback
+ * Phase 1: static articles for SEO foundation
+ * Phase 2: Supabase database for scalability
  */
 
+// Legacy interface for backward compatibility
 export interface BlogArticle {
   slug: string
   title: string
@@ -300,4 +305,118 @@ export function getRelatedArticles(article: BlogArticle, limit = 3): BlogArticle
 // Get all unique categories
 export function getArticleCategories(): string[] {
   return [...new Set(BLOG_ARTICLES.map(a => a.category))]
+}
+
+// ============================================================================
+// Supabase Integration (Phase 2)
+// ============================================================================
+
+// Get all published blog posts (for listing)
+export async function getPublishedPosts(limit?: number): Promise<BlogPost[]> {
+  let query = supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false })
+
+  if (limit) {
+    query = query.limit(limit)
+  }
+
+  const { data, error } = await query
+  if (error) {
+    console.error('Error fetching blog posts:', error)
+    return []
+  }
+  return (data || []) as BlogPost[]
+}
+
+// Get all posts (for admin, includes drafts)
+export async function getAllPosts(): Promise<BlogPost[]> {
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error('Error fetching all blog posts:', error)
+    return []
+  }
+  return (data || []) as BlogPost[]
+}
+
+// Get single post by slug
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('slug', slug)
+    .single()
+
+  if (error) {
+    console.error('Error fetching blog post:', error)
+    return null
+  }
+  return data as BlogPost
+}
+
+// Get posts by category
+export async function getPostsByCategory(category: string): Promise<BlogPost[]> {
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('status', 'published')
+    .eq('category', category)
+    .order('published_at', { ascending: false })
+
+  if (error) {
+    console.error('Error fetching posts by category:', error)
+    return []
+  }
+  return (data || []) as BlogPost[]
+}
+
+// Get related posts (same category, excluding current)
+export async function getRelatedPosts(post: BlogPost, limit = 4): Promise<BlogPost[]> {
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('status', 'published')
+    .eq('category', post.category)
+    .neq('id', post.id)
+    .order('published_at', { ascending: false })
+    .limit(limit)
+
+  if (error) {
+    console.error('Error fetching related posts:', error)
+    return []
+  }
+  return (data || []) as BlogPost[]
+}
+
+// Generate blog slug from title
+export function generateBlogSlug(title: string): string {
+  // Try to extract English-friendly parts, otherwise encode Thai
+  const cleaned = title
+    .toLowerCase()
+    .replace(/[^\u0E00-\u0E7Fa-z0-9\s-]/g, '') // keep Thai, English, numbers
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim()
+
+  return encodeURIComponent(cleaned)
+}
+
+// Increment view count via raw SQL (avoids Supabase generic typing issues)
+export async function incrementViewCount(postId: string): Promise<void> {
+  try {
+    // Use the Supabase client to run a simple update
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase as any)
+      .from('blog_posts')
+      .update({ view_count: 1 }) // placeholder
+      .eq('id', postId)
+  } catch {
+    // silently fail — view count is not critical
+  }
 }

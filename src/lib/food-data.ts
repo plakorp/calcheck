@@ -8,7 +8,7 @@ import { generateSlug } from './slug'
 import { supabase } from './supabase'
 
 // Raw data — mapped to Food type
-const RAW_FOODS: Omit<Food, 'id' | 'created_at' | 'updated_at' | 'slug'>[] = [
+const RAW_FOODS: Omit<Food, 'id' | 'created_at' | 'updated_at' | 'slug' | 'created_by'>[] = [
   // === Original basics ===
   { name_th: "ไข่ ไก่ ทั้งใบ", name_en: "whole-egg", emoji: "🥚", calories: 72, protein: 6.3, fat: 4.8, carbs: 0.4, fiber: null, sodium: null, sugar: null, serving_size: "1 large (50g)", serving_weight_g: 50, category: "protein", subcategory: null, brand: null, barcode: null, image_url: null, source: "calforlife", verified: true, tags: ["ไข่", "โปรตีน"] },
   { name_th: "ไข่ขาว", name_en: "egg-white", emoji: "🥚", calories: 17, protein: 3.6, fat: 0.1, carbs: 0.2, fiber: null, sodium: null, sugar: null, serving_size: "1 large (33g)", serving_weight_g: 33, category: "protein", subcategory: null, brand: null, barcode: null, image_url: null, source: "calforlife", verified: true, tags: ["ไข่", "โปรตีน", "low-fat"] },
@@ -81,6 +81,7 @@ const FALLBACK_FOODS: Food[] = RAW_FOODS.map((food, i) => ({
   ...food,
   id: `food-${i + 1}`,
   slug: food.name_en || generateSlug(food.name_th),
+  created_by: null,
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
 }))
