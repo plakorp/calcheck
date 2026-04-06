@@ -5,11 +5,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 
-// SSG: generate all blog pages at build time
-export async function generateStaticParams() {
-  const posts = await getPublishedPosts()
-  return posts.map(post => ({ slug: post.slug }))
-}
+// Force dynamic rendering — Thai slugs + Supabase data need server-side
+export const dynamic = 'force-dynamic'
 
 type Props = { params: Promise<{ slug: string }> }
 

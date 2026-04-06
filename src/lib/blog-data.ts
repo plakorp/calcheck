@@ -311,7 +311,30 @@ export function getArticleCategories(): string[] {
 // Supabase Integration (Phase 2)
 // ============================================================================
 
-// Get all published blog posts (for listing)
+// Convert static BlogArticle → BlogPost shape
+function staticToBlogPost(article: BlogArticle): BlogPost {
+  return {
+    id: `static-${article.slug}`,
+    title: article.title,
+    slug: article.slug,
+    excerpt: article.description,
+    content: article.content,
+    cover_image_url: null,
+    category: article.category,
+    tags: article.tags,
+    meta_title: article.title,
+    meta_description: article.description,
+    status: 'published' as const,
+    published_at: article.published_at,
+    author: article.author,
+    view_count: 0,
+    related_food_slugs: article.related_foods,
+    created_at: article.published_at,
+    updated_at: article.updated_at,
+  } as BlogPost
+}
+
+// Get all published blog posts (Supabase + static fallback)
 export async function getPublishedPosts(limit?: number): Promise<BlogPost[]> {
   let query = supabase
     .from('blog_posts')
@@ -324,11 +347,18 @@ export async function getPublishedPosts(limit?: number): Promise<BlogPost[]> {
   }
 
   const { data, error } = await query
-  if (error) {
-    console.error('Error fetching blog posts:', error)
-    return []
-  }
-  return (data || []) as BlogPost[]
+  const supabasePosts = (error ? [] : (data || [])) as BlogPost[]
+
+  // Merge static articles (exclude duplicates by slug)
+  const supabaseSlugs = new Set(supabasePosts.map(p => p.slug))
+  const staticPosts = BLOG_ARTICLES
+    .filter(a => !supabaseSlugs.has(a.slug))
+    .map(staticToBlogPost)
+
+  const allPosts = [...supabasePosts, ...staticPosts]
+    .sort((a, b) => new Date(b.published_at || '').getTime() - new Date(a.published_at || '').getTime())
+
+  return limit ? allPosts.slice(0, limit) : allPosts
 }
 
 // Get all posts (for admin, includes drafts)
@@ -345,19 +375,30 @@ export async function getAllPosts(): Promise<BlogPost[]> {
   return (data || []) as BlogPost[]
 }
 
-// Get single post by slug
+// Get single post by slug (tries Supabase first, falls back to static articles)
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+  // Decode URI in case of encoded Thai characters
+  const decodedSlug = decodeURIComponent(slug)
+
+  // Try Supabase first
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
-    .eq('slug', slug)
+    .eq('slug', decodedSlug)
     .single()
 
-  if (error) {
-    console.error('Error fetching blog post:', error)
-    return null
+  if (!error && data) {
+    return data as BlogPost
   }
-  return data as BlogPost
+
+  // Fallback: check static BLOG_ARTICLES
+  const staticArticle = BLOG_ARTICLES.find(a => a.slug === decodedSlug)
+  if (staticArticle) {
+    return staticToBlogPost(staticArticle)
+  }
+
+  console.error('Blog post not found for slug:', decodedSlug, error)
+  return null
 }
 
 // Get posts by category
