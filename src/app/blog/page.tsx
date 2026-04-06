@@ -104,30 +104,24 @@ export default async function BlogPage({ searchParams }: Props) {
       />
 
       <div className="min-h-screen bg-background">
-        {/* Hero Section */}
-        <div className="bg-gradient-to-b from-green-50 to-background py-12 px-4">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              📚 บทความสุขภาพ & โภชนาการ
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl">
-              รวมบทความเกี่ยวกับโภชนาการ แคลอรี่ เคล็ดลับลดน้ำหนัก การออกกำลังกาย และเลือกอาหารให้ถูกต้อง
-              สำหรับคนรักสุขภาพ
-            </p>
-          </div>
+        {/* Title Section */}
+        <div className="max-w-[1024px] mx-auto px-4 py-12">
+          <h1 className="text-[28px] font-bold text-foreground mb-3">
+            บทความ
+          </h1>
+          <p className="text-base font-semibold text-muted-foreground">
+            เคล็ดลับโภชนาการ การลดน้ำหนัก และข้อมูลสุขภาพที่น่ารู้
+          </p>
         </div>
 
         {/* Main Content */}
-        <div className="max-w-5xl mx-auto px-4 py-12">
+        <div className="max-w-[1024px] mx-auto px-4 pb-12">
           {/* Category Filter Chips */}
           <div className="mb-12">
-            <h2 className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wide">
-              หมวดหมู่
-            </h2>
             <div className="flex flex-wrap gap-2 pb-4 overflow-x-auto">
               <Link
                 href="/blog"
-                className={`px-4 py-2 rounded-full font-medium transition-colors whitespace-nowrap ${
+                className={`px-4 py-2 rounded-full font-medium transition-colors whitespace-nowrap text-sm ${
                   !category
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-secondary text-foreground hover:bg-secondary/80'
@@ -139,7 +133,7 @@ export default async function BlogPage({ searchParams }: Props) {
                 <Link
                   key={key}
                   href={`/blog?category=${key}`}
-                  className={`px-4 py-2 rounded-full font-medium transition-colors whitespace-nowrap ${
+                  className={`px-4 py-2 rounded-full font-medium transition-colors whitespace-nowrap text-sm ${
                     category === key
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-secondary text-foreground hover:bg-secondary/80'
@@ -166,7 +160,7 @@ export default async function BlogPage({ searchParams }: Props) {
               <div className="mb-8 text-sm text-muted-foreground">
                 พบบทความ {posts.length}篇{category && ` ในหมวดหมู่ ${BLOG_CATEGORIES[category as BlogCategoryKey]?.label}`}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {posts.map((post, index) => {
                   const categoryLabel =
                     Object.entries(BLOG_CATEGORIES).find(
@@ -178,11 +172,11 @@ export default async function BlogPage({ searchParams }: Props) {
                     <Link
                       key={post.id}
                       href={`/blog/${post.slug}`}
-                      className="flex flex-col h-full rounded-lg border border-border bg-card overflow-hidden hover:border-primary hover:shadow-md transition-all"
+                      className="flex flex-col h-full rounded-2xl border border-[#e5ede8] bg-card overflow-hidden shadow-[0px_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0px_4px_12px_rgba(0,0,0,0.08)] transition-shadow"
                     >
                       {/* Cover Image or Placeholder */}
                       <div
-                        className={`h-40 bg-gradient-to-br ${gradient} flex items-center justify-center text-4xl ${
+                        className={`bg-muted h-40 w-full flex items-center justify-center text-4xl ${
                           post.cover_image_url ? '' : 'opacity-60'
                         }`}
                       >
@@ -200,35 +194,32 @@ export default async function BlogPage({ searchParams }: Props) {
                       </div>
 
                       {/* Content */}
-                      <div className="flex-1 p-4 flex flex-col">
+                      <div className="flex-1 px-4 pt-3.5 pb-4 flex flex-col">
                         {/* Category Badge */}
                         {categoryLabel && (
                           <div className="mb-2">
-                            <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                            <span className="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-secondary text-primary">
                               {categoryLabel.emoji} {post.category}
                             </span>
                           </div>
                         )}
 
                         {/* Title */}
-                        <h3 className="font-bold text-foreground mb-2 line-clamp-2 text-lg hover:text-primary transition-colors">
+                        <h3 className="font-semibold text-foreground mb-2 line-clamp-2 text-[15px] leading-[22px]">
                           {post.title}
                         </h3>
 
-                        {/* Excerpt */}
-                        <p className="text-sm text-muted-foreground mb-4 line-clamp-2 flex-1">
+                        {/* Description */}
+                        <p className="text-[12px] text-muted-foreground mb-4 line-clamp-2 flex-1">
                           {post.excerpt ||
                             'ไม่มีบรรยายสั้น'}
                         </p>
 
-                        {/* Footer */}
-                        <div className="flex items-center justify-between text-xs text-muted-foreground border-t border-border pt-3">
+                        {/* Date */}
+                        <div className="text-[11px] text-[#a6b2ab]">
                           <time dateTime={post.published_at || ''}>
                             {post.published_at ? formatDate(post.published_at) : 'ไม่ระบุวันที่'}
                           </time>
-                          <span>
-                            โดย {post.author}
-                          </span>
                         </div>
                       </div>
                     </Link>

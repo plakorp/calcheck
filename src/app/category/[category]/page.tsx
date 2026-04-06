@@ -46,7 +46,7 @@ export default async function CategoryPage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(listSchema) }} />
 
-      <div className="max-w-3xl mx-auto px-4 py-8">
+      <div className="max-w-[1024px] mx-auto px-4 pt-8 pb-12">
         <nav className="text-sm text-muted-foreground mb-6 flex items-center gap-1.5">
           <Link href="/" className="hover:text-foreground">หน้าแรก</Link>
           <span>/</span>
@@ -55,28 +55,39 @@ export default async function CategoryPage({ params }: Props) {
           <span className="text-foreground">{cat.label}</span>
         </nav>
 
-        <h1 className="text-3xl font-bold mb-2">
-          {cat.emoji} อาหารหมวด{cat.label}
-        </h1>
-        <p className="text-muted-foreground mb-8">
-          รวมข้อมูลแคลอรี่และโภชนาการอาหารหมวด{cat.label}ทั้งหมด {foods.length} รายการ
+        <div className="flex items-center gap-3 mb-2">
+          <span className="text-[36px]">{cat.emoji}</span>
+          <h1 className="text-[28px] font-bold">อาหารหมวด{cat.label}</h1>
+        </div>
+        <p className="text-[16px] font-semibold text-muted-foreground mb-8">
+          {foods.length} รายการ
         </p>
 
-        <div className="space-y-3">
+        <div className="flex flex-wrap gap-4">
           {foods.map(food => (
             <Link
               key={food.id}
               href={`/food/${food.slug}`}
-              className="flex items-center gap-4 p-4 rounded-lg border border-border bg-card hover:border-primary transition-colors"
+              className="w-[244px] bg-card border border-border rounded-lg shadow-[0px_1px_3px_rgba(0,0,0,0.05)] p-4 hover:border-primary transition-colors"
             >
-              <span className="text-3xl">{food.emoji}</span>
-              <div className="flex-1 min-w-0">
-                <div className="font-medium">{food.name_th}</div>
-                <div className="text-sm text-muted-foreground">{food.serving_size}</div>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-[24px]">{food.emoji}</span>
+                <div className="text-[14px] font-medium">{food.name_th}</div>
               </div>
-              <div className="text-right">
-                <div className="text-xl font-bold text-primary">{Math.round(food.calories)}</div>
-                <div className="text-xs text-muted-foreground">kcal</div>
+
+              <div className="flex items-baseline gap-1 mb-2">
+                <div className="text-[24px] font-bold text-primary">{Math.round(food.calories)}</div>
+                <div className="text-[14px] text-muted-foreground">kcal</div>
+              </div>
+
+              <div className="text-[12px] text-muted-foreground mb-2 flex gap-3">
+                <span>P {Math.round(food.protein)}g</span>
+                <span>F {Math.round(food.fat * 10) / 10}g</span>
+                <span>C {Math.round(food.carbs)}g</span>
+              </div>
+
+              <div className="text-[12px] text-muted-foreground">
+                {food.serving_size}
               </div>
             </Link>
           ))}
