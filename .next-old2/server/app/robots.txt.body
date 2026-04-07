@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://calcheck.com/sitemap.xml

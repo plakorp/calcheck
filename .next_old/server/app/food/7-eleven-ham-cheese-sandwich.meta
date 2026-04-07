@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/food/layout,_N_T_/food/[slug]/layout,_N_T_/food/[slug]/page,_N_T_/food/7-eleven-ham-cheese-sandwich"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/food/$d$slug/__PAGE__",
+    "/food/$d$slug",
+    "/food",
+    "/_index",
+    "/_head"
+  ]
+}

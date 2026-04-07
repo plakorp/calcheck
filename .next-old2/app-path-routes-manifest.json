@@ -1,0 +1,22 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/add/page": "/admin/add",
+  "/admin/csv/page": "/admin/csv",
+  "/admin/import/page": "/admin/import",
+  "/admin/page": "/admin",
+  "/admin/upload/page": "/admin/upload",
+  "/api/foods/bulk/route": "/api/foods/bulk",
+  "/api/foods/route": "/api/foods",
+  "/api/import/barcode/route": "/api/import/barcode",
+  "/api/import/search/route": "/api/import/search",
+  "/category/[category]/page": "/category/[category]",
+  "/compare/[pair]/page": "/compare/[pair]",
+  "/compare/page": "/compare",
+  "/favicon.ico/route": "/favicon.ico",
+  "/food/[slug]/page": "/food/[slug]",
+  "/page": "/",
+  "/robots.txt/route": "/robots.txt",
+  "/search/page": "/search",
+  "/sitemap.xml/route": "/sitemap.xml"
+}

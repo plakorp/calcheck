@@ -38,7 +38,7 @@ export default async function CategoryPage({ params }: Props) {
       "@type": "ListItem",
       position: i + 1,
       name: f.name_th,
-      url: `https://calcheck.com/food/${f.slug}`,
+      url: `https://checkkal.com/food/${f.slug}`,
     })),
   }
 

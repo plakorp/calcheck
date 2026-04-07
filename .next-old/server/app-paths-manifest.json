@@ -1,0 +1,20 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/add/page": "app/admin/add/page.js",
+  "/admin/import/page": "app/admin/import/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/upload/page": "app/admin/upload/page.js",
+  "/api/foods/route": "app/api/foods/route.js",
+  "/api/import/barcode/route": "app/api/import/barcode/route.js",
+  "/api/import/search/route": "app/api/import/search/route.js",
+  "/category/[category]/page": "app/category/[category]/page.js",
+  "/compare/[pair]/page": "app/compare/[pair]/page.js",
+  "/compare/page": "app/compare/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/food/[slug]/page": "app/food/[slug]/page.js",
+  "/page": "app/page.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/search/page": "app/search/page.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js"
+}

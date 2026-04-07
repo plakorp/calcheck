@@ -64,9 +64,9 @@ export default async function FoodPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "หน้าแรก", item: "https://calcheck.com" },
-      { "@type": "ListItem", position: 2, name: cat?.label || food.category, item: `https://calcheck.com/category/${food.category}` },
-      { "@type": "ListItem", position: 3, name: food.name_th, item: `https://calcheck.com/food/${food.slug}` },
+      { "@type": "ListItem", position: 1, name: "หน้าแรก", item: "https://checkkal.com" },
+      { "@type": "ListItem", position: 2, name: cat?.label || food.category, item: `https://checkkal.com/category/${food.category}` },
+      { "@type": "ListItem", position: 3, name: food.name_th, item: `https://checkkal.com/food/${food.slug}` },
     ],
   }
 

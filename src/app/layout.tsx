@@ -24,12 +24,12 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "CalCheck",
-  url: "https://calcheck.com",
+  url: "https://checkkal.com",
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: "https://calcheck.com/search?q={search_term_string}",
+      urlTemplate: "https://checkkal.com/search?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
   },

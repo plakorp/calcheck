@@ -50,9 +50,9 @@ export default async function BlogPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: 'https://calcheck.com' },
-      { '@type': 'ListItem', position: 2, name: 'บทความ', item: 'https://calcheck.com/blog' },
-      { '@type': 'ListItem', position: 3, name: post.title, item: `https://calcheck.com/blog/${post.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: 'https://checkkal.com' },
+      { '@type': 'ListItem', position: 2, name: 'บทความ', item: 'https://checkkal.com/blog' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://checkkal.com/blog/${post.slug}` },
     ],
   }
 

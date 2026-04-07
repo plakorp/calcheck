@@ -59,13 +59,13 @@ export default async function BlogPage({ searchParams }: Props) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://calcheck.com',
+        item: 'https://checkkal.com',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'บทความ',
-        item: 'https://calcheck.com/blog',
+        item: 'https://checkkal.com/blog',
       },
     ],
   }
@@ -76,12 +76,12 @@ export default async function BlogPage({ searchParams }: Props) {
     '@type': 'Blog',
     name: 'CalCheck Blog',
     description: 'บทความสุขภาพและโภชนาการ',
-    url: 'https://calcheck.com/blog',
+    url: 'https://checkkal.com/blog',
     blogPost: posts.map(post => ({
       '@type': 'BlogPosting',
       headline: post.title,
       description: post.meta_description || post.excerpt,
-      image: post.cover_image_url || 'https://calcheck.com/og-image.png',
+      image: post.cover_image_url || 'https://checkkal.com/og-image.png',
       datePublished: post.published_at,
       dateModified: post.updated_at,
       author: {

@@ -119,9 +119,9 @@ export default async function ComparePairPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: 'https://calcheck.com' },
-      { '@type': 'ListItem', position: 2, name: 'เปรียบเทียบอาหาร', item: 'https://calcheck.com/compare' },
-      { '@type': 'ListItem', position: 3, name: `${foodA.name_th} vs ${foodB.name_th}`, item: `https://calcheck.com/compare/${pair}` },
+      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: 'https://checkkal.com' },
+      { '@type': 'ListItem', position: 2, name: 'เปรียบเทียบอาหาร', item: 'https://checkkal.com/compare' },
+      { '@type': 'ListItem', position: 3, name: `${foodA.name_th} vs ${foodB.name_th}`, item: `https://checkkal.com/compare/${pair}` },
     ],
   }
 
