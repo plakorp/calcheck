@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'บทความสุขภาพ & โภชนาการ | CalCheck',
+  title: 'บทความสุขภาพ & โภชนาการ | CheckKal',
   description: 'บทความเกี่ยวกับโภชนาการ แคลอรี่ เคล็ดลับลดน้ำหนัก เปรียบเทียบอาหาร และแผนมื้ออาหาร สำหรับคนรักสุขภาพ',
 }
 
@@ -74,7 +74,7 @@ export default async function BlogPage({ searchParams }: Props) {
   const blogSchema = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'CalCheck Blog',
+    name: 'CheckKal Blog',
     description: 'บทความสุขภาพและโภชนาการ',
     url: 'https://checkkal.com/blog',
     blogPost: posts.map(post => ({
@@ -105,17 +105,17 @@ export default async function BlogPage({ searchParams }: Props) {
 
       <div className="min-h-screen bg-background">
         {/* Title Section */}
-        <div className="max-w-[1024px] mx-auto px-4 py-12">
-          <h1 className="text-[28px] font-bold text-foreground mb-3">
+        <div className="max-w-[1200px] mx-auto px-6 py-16 md:py-20">
+          <h1 className="text-[32px] font-medium text-foreground mb-3 tracking-[-0.5px]">
             บทความ
           </h1>
-          <p className="text-base font-semibold text-muted-foreground">
+          <p className="text-base text-[#36342e]">
             เคล็ดลับโภชนาการ การลดน้ำหนัก และข้อมูลสุขภาพที่น่ารู้
           </p>
         </div>
 
         {/* Main Content */}
-        <div className="max-w-[1024px] mx-auto px-4 pb-12">
+        <div className="max-w-[1200px] mx-auto px-6 pb-12">
           {/* Category Filter Chips */}
           <div className="mb-12">
             <div className="flex flex-wrap gap-2 pb-4 overflow-x-auto">
@@ -172,7 +172,7 @@ export default async function BlogPage({ searchParams }: Props) {
                     <Link
                       key={post.id}
                       href={`/blog/${post.slug}`}
-                      className="flex flex-col h-full rounded-2xl border border-[#e5ede8] bg-card overflow-hidden shadow-[0px_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0px_4px_12px_rgba(0,0,0,0.08)] transition-shadow"
+                      className="flex flex-col h-full rounded-[8px] border border-border bg-card overflow-hidden hover:border-[#939084] transition-colors"
                     >
                       {/* Cover Image or Placeholder */}
                       <div
@@ -216,7 +216,7 @@ export default async function BlogPage({ searchParams }: Props) {
                         </p>
 
                         {/* Date */}
-                        <div className="text-[11px] text-[#a6b2ab]">
+                        <div className="text-[11px] text-muted-foreground">
                           <time dateTime={post.published_at || ''}>
                             {post.published_at ? formatDate(post.published_at) : 'ไม่ระบุวันที่'}
                           </time>

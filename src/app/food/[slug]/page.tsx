@@ -82,9 +82,9 @@ export default async function FoodPage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-[1200px] mx-auto px-6 py-16">
         {/* Breadcrumb */}
-        <nav className="text-sm text-muted-foreground mb-8 flex items-center gap-2">
+        <nav className="text-sm text-muted-foreground mb-12 flex items-center gap-2">
           <Link href="/" className="hover:text-foreground transition-colors">หน้าแรก</Link>
           <span className="text-muted-foreground">/</span>
           <Link href={`/category/${food.category}`} className="hover:text-foreground transition-colors">{cat?.label || food.category}</Link>
@@ -93,17 +93,17 @@ export default async function FoodPage({ params }: Props) {
         </nav>
 
         {/* Two-column layout: left (image + info) | right (nutrition card) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
           {/* LEFT COLUMN: Image + Info */}
           <div className="lg:col-span-1">
             {/* Food image placeholder */}
-            <div className="bg-muted rounded-2xl aspect-[4/3] mb-6 shadow-[0px_1px_3px_rgba(0,0,0,0.05)]" />
+            <div className="bg-secondary rounded-[8px] aspect-[4/3] mb-8 border border-border" />
 
             {/* Food name + emoji */}
-            <div className="mb-4">
-              <div className="flex items-start gap-3 mb-3">
+            <div className="mb-6">
+              <div className="flex items-start gap-3 mb-4">
                 <span className="text-4xl flex-shrink-0">{food.emoji}</span>
-                <h1 className="text-2xl font-bold text-foreground leading-tight">{food.name_th}</h1>
+                <h1 className="text-[32px] font-medium text-foreground leading-tight tracking-[-0.5px]">{food.name_th}</h1>
               </div>
               {food.name_en && (
                 <p className="text-sm text-muted-foreground">{food.name_en}</p>
@@ -111,17 +111,17 @@ export default async function FoodPage({ params }: Props) {
             </div>
 
             {/* Brand + verified badges */}
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-2 mb-8">
               {food.brand && (
                 <Link
                   href={`/brand/${encodeURIComponent(food.brand.toLowerCase())}`}
-                  className="inline-block text-xs px-3 py-1.5 bg-secondary text-secondary-foreground rounded-full hover:opacity-80 transition-opacity"
+                  className="inline-block text-xs px-3 py-1.5 bg-secondary border border-border text-foreground rounded-[5px] hover:bg-secondary/80 transition-colors"
                 >
                   {food.brand}
                 </Link>
               )}
               {food.verified && (
-                <span className="inline-block text-xs px-3 py-1.5 bg-primary/10 text-primary rounded-full font-medium">
+                <span className="inline-block text-xs px-3 py-1.5 bg-primary/5 border border-border text-primary rounded-[5px] font-medium">
                   ✓ ยืนยันแล้ว
                 </span>
               )}
@@ -129,22 +129,22 @@ export default async function FoodPage({ params }: Props) {
 
             {/* ข้อมูลเพิ่มเติม table */}
             {(food.serving_size || food.source || food.brand) && (
-              <div className="space-y-3 text-sm">
+              <div className="space-y-4 text-sm">
                 {food.serving_size && (
-                  <div className="flex justify-between pb-3 border-b border-border">
-                    <span className="text-muted-foreground">ปริมาณ</span>
+                  <div className="flex justify-between pb-4 border-b border-border">
+                    <span className="text-muted-foreground uppercase text-xs font-semibold tracking-[0.5px]">ปริมาณ</span>
                     <span className="font-medium text-foreground">{food.serving_size}</span>
                   </div>
                 )}
                 {food.source && (
-                  <div className="flex justify-between pb-3 border-b border-border">
-                    <span className="text-muted-foreground">แหล่งข้อมูล</span>
+                  <div className="flex justify-between pb-4 border-b border-border">
+                    <span className="text-muted-foreground uppercase text-xs font-semibold tracking-[0.5px]">แหล่งข้อมูล</span>
                     <span className="font-medium text-foreground capitalize">{food.source}</span>
                   </div>
                 )}
                 {food.updated_at && (
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">อัพเดท</span>
+                    <span className="text-muted-foreground uppercase text-xs font-semibold tracking-[0.5px]">อัพเดท</span>
                     <span className="font-medium text-foreground">{new Date(food.updated_at).toLocaleDateString('th-TH')}</span>
                   </div>
                 )}
@@ -154,55 +154,55 @@ export default async function FoodPage({ params }: Props) {
 
           {/* RIGHT COLUMN: Nutrition Card */}
           <div className="lg:col-span-2">
-            <div className="bg-card border border-border rounded-xl p-6 shadow-[0px_1px_3px_rgba(0,0,0,0.05)]">
+            <div className="bg-card border border-border rounded-[8px] p-8">
               {/* Calories highlight */}
-              <div className="mb-8 pb-6 border-b border-border">
-                <div className="text-5xl font-bold text-primary mb-1">{Math.round(food.calories)}</div>
+              <div className="mb-10 pb-8 border-b border-border">
+                <div className="text-5xl font-medium text-primary mb-2">{Math.round(food.calories)}</div>
                 <p className="text-sm text-muted-foreground">kcal ต่อ {food.serving_size}</p>
               </div>
 
               {/* Macro progress bar */}
-              <div className="h-3 rounded-full overflow-hidden flex mb-6 bg-muted">
+              <div className="h-3 rounded-[5px] overflow-hidden flex mb-8 bg-secondary border border-border">
                 {proteinPct > 0 && <div className="bg-blue-500" style={{ width: `${proteinPct}%` }} title={`โปรตีน ${proteinPct.toFixed(0)}%`} />}
                 {fatPct > 0 && <div className="bg-amber-500" style={{ width: `${fatPct}%` }} title={`ไขมัน ${fatPct.toFixed(0)}%`} />}
-                {carbsPct > 0 && <div className="bg-orange-400" style={{ width: `${carbsPct}%` }} title={`คาร์บ ${carbsPct.toFixed(0)}%`} />}
+                {carbsPct > 0 && <div className="bg-primary" style={{ width: `${carbsPct}%` }} title={`คาร์บ ${carbsPct.toFixed(0)}%`} />}
               </div>
 
               {/* Macro grid: 3 columns */}
-              <div className="grid grid-cols-3 gap-4 mb-6 pb-6 border-b border-border">
+              <div className="grid grid-cols-3 gap-6 mb-8 pb-8 border-b border-border">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-500 mb-1">{food.protein}g</div>
-                  <p className="text-xs text-muted-foreground">โปรตีน</p>
+                  <div className="text-2xl font-bold text-blue-500 mb-2">{food.protein}g</div>
+                  <p className="text-xs text-muted-foreground uppercase font-semibold tracking-[0.5px]">โปรตีน</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-amber-500 mb-1">{food.fat}g</div>
-                  <p className="text-xs text-muted-foreground">ไขมัน</p>
+                  <div className="text-2xl font-bold text-amber-500 mb-2">{food.fat}g</div>
+                  <p className="text-xs text-muted-foreground uppercase font-semibold tracking-[0.5px]">ไขมัน</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-400 mb-1">{food.carbs}g</div>
-                  <p className="text-xs text-muted-foreground">คาร์โบไฮเดรต</p>
+                  <div className="text-2xl font-bold text-primary mb-2">{food.carbs}g</div>
+                  <p className="text-xs text-muted-foreground uppercase font-semibold tracking-[0.5px]">คาร์โบไฮเดรต</p>
                 </div>
               </div>
 
               {/* Extra nutrients section */}
               {(food.fiber !== null || food.sodium !== null || food.sugar !== null) && (
-                <div className="grid grid-cols-3 gap-4 text-center text-sm">
+                <div className="grid grid-cols-3 gap-6 text-center text-sm">
                   {food.fiber !== null && (
                     <div>
-                      <div className="font-bold text-foreground mb-1">{food.fiber}g</div>
-                      <p className="text-xs text-muted-foreground">ไฟเบอร์</p>
+                      <div className="font-bold text-foreground mb-2">{food.fiber}g</div>
+                      <p className="text-xs text-muted-foreground uppercase font-semibold tracking-[0.5px]">ไฟเบอร์</p>
                     </div>
                   )}
                   {food.sodium !== null && (
                     <div>
-                      <div className="font-bold text-foreground mb-1">{food.sodium}mg</div>
-                      <p className="text-xs text-muted-foreground">โซเดียม</p>
+                      <div className="font-bold text-foreground mb-2">{food.sodium}mg</div>
+                      <p className="text-xs text-muted-foreground uppercase font-semibold tracking-[0.5px]">โซเดียม</p>
                     </div>
                   )}
                   {food.sugar !== null && (
                     <div>
-                      <div className="font-bold text-foreground mb-1">{food.sugar}g</div>
-                      <p className="text-xs text-muted-foreground">น้ำตาล</p>
+                      <div className="font-bold text-foreground mb-2">{food.sugar}g</div>
+                      <p className="text-xs text-muted-foreground uppercase font-semibold tracking-[0.5px]">น้ำตาล</p>
                     </div>
                   )}
                 </div>
@@ -213,12 +213,12 @@ export default async function FoodPage({ params }: Props) {
 
         {/* Tags */}
         {food.tags && food.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-12">
+          <div className="flex flex-wrap gap-3 mb-20">
             {food.tags.map(tag => (
               <Link
                 key={tag}
                 href={`/tag/${encodeURIComponent(tag)}`}
-                className="text-xs px-3 py-1.5 bg-secondary text-secondary-foreground rounded-full hover:opacity-80 transition-opacity"
+                className="text-xs px-3 py-1.5 bg-secondary border border-border text-foreground rounded-[5px] hover:bg-secondary/80 transition-colors"
               >
                 #{tag}
               </Link>
@@ -227,20 +227,20 @@ export default async function FoodPage({ params }: Props) {
         )}
 
         {/* FAQ section — SEO gold */}
-        <section className="mb-12">
-          <h2 className="text-lg font-bold text-foreground mb-6">คำถามที่พบบ่อย</h2>
+        <section className="mb-20">
+          <h2 className="text-[32px] font-medium text-foreground mb-8 tracking-[-0.5px]">คำถามที่พบบ่อย</h2>
           <div className="space-y-3">
             {faqs.map((faq, i) => (
               <details
                 key={i}
-                className="group border border-border rounded-lg overflow-hidden shadow-[0px_1px_3px_rgba(0,0,0,0.05)]"
+                className="group border border-border rounded-[8px] overflow-hidden"
                 open={i === 0}
               >
-                <summary className="p-4 bg-card cursor-pointer font-medium text-foreground hover:bg-muted transition-colors flex items-center justify-between">
+                <summary className="p-4 bg-card cursor-pointer font-medium text-foreground hover:bg-secondary transition-colors flex items-center justify-between">
                   {faq.question}
                   <span className="text-muted-foreground text-sm group-open:rotate-180 transition-transform">▼</span>
                 </summary>
-                <p className="p-4 bg-muted text-sm text-foreground border-t border-border">{faq.answer}</p>
+                <p className="p-4 bg-secondary text-sm text-foreground border-t border-border">{faq.answer}</p>
               </details>
             ))}
           </div>
@@ -248,14 +248,14 @@ export default async function FoodPage({ params }: Props) {
 
         {/* Related foods — "คนดูอาหารนี้ยังดู..." */}
         {related.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-lg font-bold text-foreground mb-6">คนดูอาหารนี้ยังดู...</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          <section className="mb-20">
+            <h2 className="text-[32px] font-medium text-foreground mb-8 tracking-[-0.5px]">คนดูอาหารนี้ยังดู...</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {related.map(r => (
                 <Link
                   key={r.id}
                   href={`/food/${r.slug}`}
-                  className="group p-4 rounded-lg border border-border bg-card hover:border-primary transition-colors shadow-[0px_1px_3px_rgba(0,0,0,0.05)]"
+                  className="group p-4 rounded-[8px] border border-border bg-card hover:border-primary transition-colors"
                 >
                   <div className="flex items-start gap-2 mb-3">
                     <span className="text-2xl flex-shrink-0">{r.emoji}</span>
@@ -269,12 +269,12 @@ export default async function FoodPage({ params }: Props) {
         )}
 
         {/* Compare CTA */}
-        <section className="mb-12">
-          <div className="bg-muted rounded-lg p-6 text-center border border-border shadow-[0px_1px_3px_rgba(0,0,0,0.05)]">
-            <p className="text-sm text-muted-foreground mb-3">อยากเปรียบเทียบกับอาหารอื่น?</p>
+        <section className="mb-20">
+          <div className="bg-secondary rounded-[8px] p-8 text-center border border-border">
+            <p className="text-sm text-muted-foreground mb-4">อยากเปรียบเทียบกับอาหารอื่น?</p>
             <Link
               href={`/compare?a=${food.slug}`}
-              className="inline-block text-primary font-medium hover:underline text-sm"
+              className="inline-block bg-primary text-white px-4 py-2 rounded-[4px] font-medium hover:bg-primary/90 transition-colors text-sm"
             >
               เปรียบเทียบ {food.name_th} กับอาหารอื่น →
             </Link>

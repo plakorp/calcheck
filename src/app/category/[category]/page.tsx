@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `อาหารหมวด${cat.label} — แคลอรี่และโภชนาการ`,
-    description: `รวมข้อมูลแคลอรี่และโภชนาการอาหารหมวด${cat.label}ทั้งหมด พร้อมเปรียบเทียบ — CalCheck`,
+    description: `รวมข้อมูลแคลอรี่และโภชนาการอาหารหมวด${cat.label}ทั้งหมด พร้อมเปรียบเทียบ — CheckKal`,
   }
 }
 
@@ -46,8 +46,8 @@ export default async function CategoryPage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(listSchema) }} />
 
-      <div className="max-w-[1024px] mx-auto px-4 pt-8 pb-12">
-        <nav className="text-sm text-muted-foreground mb-6 flex items-center gap-1.5">
+      <div className="max-w-[1200px] mx-auto px-6 py-16 md:py-20">
+        <nav className="text-sm text-muted-foreground mb-8 flex items-center gap-1.5">
           <Link href="/" className="hover:text-foreground">หน้าแรก</Link>
           <span>/</span>
           <Link href="/category" className="hover:text-foreground">หมวดหมู่</Link>
@@ -55,42 +55,44 @@ export default async function CategoryPage({ params }: Props) {
           <span className="text-foreground">{cat.label}</span>
         </nav>
 
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center gap-3 mb-4">
           <span className="text-[36px]">{cat.emoji}</span>
-          <h1 className="text-[28px] font-bold">อาหารหมวด{cat.label}</h1>
+          <h1 className="text-[32px] font-medium tracking-[-0.5px]">อาหารหมวด{cat.label}</h1>
         </div>
-        <p className="text-[16px] font-semibold text-muted-foreground mb-8">
+        <p className="text-[12px] font-semibold tracking-[0.5px] text-muted-foreground mb-12 uppercase">
           {foods.length} รายการ
         </p>
 
-        <div className="flex flex-wrap gap-4">
-          {foods.map(food => (
-            <Link
-              key={food.id}
-              href={`/food/${food.slug}`}
-              className="w-[244px] bg-card border border-border rounded-lg shadow-[0px_1px_3px_rgba(0,0,0,0.05)] p-4 hover:border-primary transition-colors"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-[24px]">{food.emoji}</span>
-                <div className="text-[14px] font-medium">{food.name_th}</div>
-              </div>
+        <div className="border-t border-border pt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {foods.map(food => (
+              <Link
+                key={food.id}
+                href={`/food/${food.slug}`}
+                className="bg-card border border-border rounded-[8px] p-4 hover:border-primary transition-colors"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-[24px]">{food.emoji}</span>
+                  <div className="text-[14px] font-medium">{food.name_th}</div>
+                </div>
 
-              <div className="flex items-baseline gap-1 mb-2">
-                <div className="text-[24px] font-bold text-primary">{Math.round(food.calories)}</div>
-                <div className="text-[14px] text-muted-foreground">kcal</div>
-              </div>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <div className="text-[24px] font-bold text-primary">{Math.round(food.calories)}</div>
+                  <div className="text-[14px] text-muted-foreground">kcal</div>
+                </div>
 
-              <div className="text-[12px] text-muted-foreground mb-2 flex gap-3">
-                <span>P {Math.round(food.protein)}g</span>
-                <span>F {Math.round(food.fat * 10) / 10}g</span>
-                <span>C {Math.round(food.carbs)}g</span>
-              </div>
+                <div className="text-[12px] text-muted-foreground mb-2 flex gap-3">
+                  <span>P {Math.round(food.protein)}g</span>
+                  <span>F {Math.round(food.fat * 10) / 10}g</span>
+                  <span>C {Math.round(food.carbs)}g</span>
+                </div>
 
-              <div className="text-[12px] text-muted-foreground">
-                {food.serving_size}
-              </div>
-            </Link>
-          ))}
+                <div className="text-[12px] text-muted-foreground">
+                  {food.serving_size}
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </>

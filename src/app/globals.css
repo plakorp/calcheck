@@ -18,34 +18,34 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --font-sans: "Inter", "Noto Sans Thai", system-ui, -apple-system, sans-serif;
+  --font-sans: "Inter", "Noto Sans Thai", Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: 4px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+  --radius-xl: 14px;
 }
 
 :root {
-  --radius: 0.5rem;
-  /* Figma CalCheck v2 — Light mode only */
-  --background: #f5f7f5;
-  --foreground: #1a211c;
-  --card: #ffffff;
-  --card-foreground: #1a211c;
-  --primary: #298c57;
-  --primary-foreground: #f5f7f5;
-  --secondary: #edf7f0;
-  --secondary-foreground: #298c57;
-  --muted: #e0e8e3;
-  --muted-foreground: #6b7a70;
-  --accent: #edf7f0;
-  --accent-foreground: #298c57;
+  --radius: 5px;
+  /* Zapier-inspired warm palette */
+  --background: #fffefb;
+  --foreground: #201515;
+  --card: #fffefb;
+  --card-foreground: #201515;
+  --primary: #ff4f00;
+  --primary-foreground: #fffefb;
+  --secondary: #eceae3;
+  --secondary-foreground: #36342e;
+  --muted: #eceae3;
+  --muted-foreground: #939084;
+  --accent: #eceae3;
+  --accent-foreground: #36342e;
   --destructive: #dc2626;
-  --border: #d6ded9;
-  --input: #d6ded9;
-  --ring: #298c57;
+  --border: #c5c0b1;
+  --input: #c5c0b1;
+  --ring: #ff4f00;
 
   color-scheme: light;
 }

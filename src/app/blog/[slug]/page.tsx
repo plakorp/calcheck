@@ -70,24 +70,24 @@ export default async function BlogPage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-      <div className="min-h-screen bg-background">
-        <div className="max-w-[1024px] mx-auto px-4 py-12">
+      <div className="min-h-screen bg-[#fffefb]">
+        <div className="max-w-[1200px] mx-auto px-6 py-16 md:py-20">
           {/* Breadcrumb */}
-          <nav className="text-sm text-muted-foreground mb-8 flex items-center gap-1.5">
-            <Link href="/" className="hover:text-foreground transition-colors">
+          <nav className="text-sm text-[#36342e] mb-8 flex items-center gap-1.5">
+            <Link href="/" className="hover:underline transition-colors">
               หน้าแรก
             </Link>
             <span>/</span>
-            <Link href="/blog" className="hover:text-foreground transition-colors">
+            <Link href="/blog" className="hover:underline transition-colors">
               บทความ
             </Link>
             <span>/</span>
-            <span className="text-foreground">{post.title}</span>
+            <span className="text-[#201515]">{post.title}</span>
           </nav>
 
           {/* Cover image */}
           {post.cover_image_url && (
-            <div className="mb-8 rounded-2xl overflow-hidden h-[400px] bg-muted">
+            <div className="mb-8 rounded-lg overflow-hidden h-[400px] bg-muted border border-[#c5c0b1]">
               <Image
                 src={post.cover_image_url}
                 alt={post.title}
@@ -101,26 +101,26 @@ export default async function BlogPage({ params }: Props) {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-[36px] font-bold text-foreground mb-6">{post.title}</h1>
+            <h1 className="text-[36px] font-semibold text-[#201515] mb-6 tracking-[-0.5px]">{post.title}</h1>
 
             {/* Meta info */}
-            <div className="flex flex-wrap gap-4 items-center pb-8 border-b border-border">
-              <span className="inline-block px-2.5 py-0.5 bg-secondary text-primary rounded-md text-[11px] font-medium">
+            <div className="flex flex-wrap gap-4 items-center pb-8 border-b border-[#c5c0b1]">
+              <span className="inline-block px-2.5 py-0.5 bg-[#fff4ed] text-[#201515] rounded-md text-[11px] font-medium border border-[#c5c0b1]">
                 {cat.emoji} {cat.label}
               </span>
-              {publishedDate && <span className="text-sm text-muted-foreground">{publishedDate}</span>}
-              {post.author && <span className="text-sm text-muted-foreground">โดย {post.author}</span>}
-              {post.view_count > 0 && <span className="text-sm text-muted-foreground">👁️ {post.view_count.toLocaleString('th-TH')} ครั้ง</span>}
+              {publishedDate && <span className="text-sm text-[#36342e]">{publishedDate}</span>}
+              {post.author && <span className="text-sm text-[#36342e]">โดย {post.author}</span>}
+              {post.view_count > 0 && <span className="text-sm text-[#36342e]">👁️ {post.view_count.toLocaleString('th-TH')} ครั้ง</span>}
             </div>
 
             {post.excerpt && (
-              <p className="text-base text-muted-foreground mt-6 leading-relaxed">{post.excerpt}</p>
+              <p className="text-base text-[#36342e] mt-6 leading-relaxed">{post.excerpt}</p>
             )}
           </div>
 
           {/* Article content */}
-          <div className="prose prose-sm max-w-none mb-8 text-foreground">
-            <div className="whitespace-pre-wrap text-base leading-relaxed text-foreground">
+          <div className="prose prose-sm max-w-none mb-8 text-[#36342e] prose-headings:font-semibold prose-headings:text-[#201515] prose-strong:text-[#201515] prose-a:text-[#ff4f00]">
+            <div className="whitespace-pre-wrap text-base leading-relaxed text-[#36342e]">
               {post.content}
             </div>
           </div>
@@ -132,7 +132,7 @@ export default async function BlogPage({ params }: Props) {
                 <Link
                   key={tag}
                   href={`/blog?tag=${encodeURIComponent(tag)}`}
-                  className="text-[12px] px-3 py-1 bg-secondary text-foreground rounded-md hover:bg-secondary/80 transition-colors"
+                  className="text-[12px] px-3 py-1 bg-[#f0ebe6] text-[#36342e] rounded-md border border-[#c5c0b1] hover:bg-[#e5dfd8] transition-colors"
                 >
                   #{tag}
                 </Link>
@@ -143,16 +143,16 @@ export default async function BlogPage({ params }: Props) {
           {/* Related food links section */}
           {post.related_food_slugs && post.related_food_slugs.length > 0 && (
             <section className="mb-12">
-              <h2 className="text-lg font-bold text-foreground mb-6">อาหารที่เกี่ยวข้อง</h2>
+              <h2 className="text-lg font-semibold text-[#201515] mb-6 tracking-[-0.5px]">อาหารที่เกี่ยวข้อง</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {post.related_food_slugs.map(foodSlug => (
                   <Link
                     key={foodSlug}
                     href={`/food/${foodSlug}`}
-                    className="p-4 rounded-2xl border border-[#e5ede8] bg-card hover:shadow-[0px_4px_12px_rgba(0,0,0,0.08)] transition-shadow"
+                    className="p-4 rounded-lg border border-[#c5c0b1] bg-white"
                   >
-                    <span className="text-sm font-medium text-foreground block mb-1">{foodSlug}</span>
-                    <div className="text-[12px] text-muted-foreground">ดูข้อมูลอาหาร →</div>
+                    <span className="text-sm font-medium text-[#201515] block mb-1">{foodSlug}</span>
+                    <div className="text-[12px] text-[#36342e]">ดูข้อมูลอาหาร →</div>
                   </Link>
                 ))}
               </div>
@@ -162,7 +162,7 @@ export default async function BlogPage({ params }: Props) {
           {/* Related posts section */}
           {related.length > 0 && (
             <section className="mb-12">
-              <h2 className="text-lg font-bold text-foreground mb-6">บทความที่เกี่ยวข้อง</h2>
+              <h2 className="text-lg font-semibold text-[#201515] mb-6 tracking-[-0.5px]">บทความที่เกี่ยวข้อง</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {related.map(relatedPost => {
                   const relatedCat = BLOG_CATEGORIES[relatedPost.category as BlogCategoryKey] || {
@@ -173,10 +173,10 @@ export default async function BlogPage({ params }: Props) {
                     <Link
                       key={relatedPost.id}
                       href={`/blog/${relatedPost.slug}`}
-                      className="flex flex-col h-full rounded-2xl border border-[#e5ede8] bg-card overflow-hidden shadow-[0px_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0px_4px_12px_rgba(0,0,0,0.08)] transition-shadow"
+                      className="flex flex-col h-full rounded-[8px] border border-border bg-card overflow-hidden hover:border-[#939084] transition-colors"
                     >
                       {/* Emoji placeholder */}
-                      <div className="bg-muted h-40 w-full flex items-center justify-center">
+                      <div className="bg-[#f0ebe6] h-40 w-full flex items-center justify-center">
                         <span className="text-6xl">{relatedCat.emoji}</span>
                       </div>
 
@@ -184,18 +184,18 @@ export default async function BlogPage({ params }: Props) {
                       <div className="flex-1 px-4 pt-3.5 pb-4 flex flex-col">
                         {/* Category Badge */}
                         <div className="mb-2">
-                          <span className="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-secondary text-primary">
+                          <span className="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-[#fff4ed] text-[#201515] border border-[#c5c0b1]">
                             {relatedCat.emoji} {relatedPost.category}
                           </span>
                         </div>
 
                         {/* Title */}
-                        <h3 className="font-semibold text-foreground mb-2 line-clamp-2 text-[15px] leading-[22px]">
+                        <h3 className="font-semibold text-[#201515] mb-2 line-clamp-2 text-[15px] leading-[22px]">
                           {relatedPost.title}
                         </h3>
 
                         {/* Description */}
-                        <p className="text-[12px] text-muted-foreground mb-4 line-clamp-2 flex-1">
+                        <p className="text-[12px] text-[#36342e] mb-4 line-clamp-2 flex-1">
                           {relatedPost.excerpt || 'ไม่มีบรรยายสั้น'}
                         </p>
                       </div>
@@ -207,15 +207,15 @@ export default async function BlogPage({ params }: Props) {
           )}
 
           {/* CTA section */}
-          <div className="rounded-2xl border border-[#e5ede8] bg-card p-6 text-center mb-12">
-            <p className="text-base text-foreground font-semibold mb-3">อยากอ่านบทความอื่น?</p>
-            <Link href="/blog" className="text-primary font-medium hover:underline">
+          <div className="rounded-lg border border-[#c5c0b1] bg-white p-6 text-center mb-12">
+            <p className="text-base text-[#201515] font-semibold mb-3">อยากอ่านบทความอื่น?</p>
+            <Link href="/blog" className="text-[#ff4f00] font-medium hover:underline">
               ดูบทความทั้งหมด →
             </Link>
           </div>
 
           {/* Source/update info */}
-          <div className="text-xs text-[#a6b2ab] pt-6 border-t border-border">
+          <div className="text-xs text-[#a6b2ab] pt-6 border-t border-[#c5c0b1]">
             <p>อัพเดทล่าสุด: {new Date(post.updated_at).toLocaleDateString('th-TH')}</p>
           </div>
         </div>

@@ -4,15 +4,15 @@ import "./globals.css"
 
 export const metadata: Metadata = {
   title: {
-    default: "CalCheck — แคลอรี่อาหาร โภชนาการครบ ค้นหาง่าย",
-    template: "%s | CalCheck",
+    default: "CheckKal — แคลอรี่อาหาร โภชนาการครบ ค้นหาง่าย",
+    template: "%s | CheckKal",
   },
   description: "ค้นหาแคลอรี่และข้อมูลโภชนาการอาหารไทย อาหารเซเว่น อาหารคลีน พร้อมเปรียบเทียบ ครบจบในที่เดียว",
-  keywords: ["แคลอรี่", "โภชนาการ", "อาหารไทย", "ลดน้ำหนัก", "แคลอรี่อาหาร", "กี่แคล", "calcheck"],
+  keywords: ["แคลอรี่", "โภชนาการ", "อาหารไทย", "ลดน้ำหนัก", "แคลอรี่อาหาร", "กี่แคล", "checkkal"],
   openGraph: {
     type: "website",
     locale: "th_TH",
-    siteName: "CalCheck",
+    siteName: "CheckKal",
   },
   robots: {
     index: true,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "CalCheck",
+  name: "CheckKal",
   url: "https://checkkal.com",
   potentialAction: {
     "@type": "SearchAction",
@@ -55,18 +55,27 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased min-h-screen">
-        {/* Header — Figma v2 */}
-        <header className="bg-card border-b border-border sticky top-0 z-50 shadow-[0px_2px_8px_rgba(0,0,0,0.04)]">
-          <div className="max-w-[1024px] mx-auto flex items-center justify-between py-3 px-4">
-            <Link href="/" className="text-[22px] font-bold text-primary tracking-[-0.3px] leading-7">
-              CalCheck
+        {/* Header — Zapier style */}
+        <header className="bg-card border-b border-border sticky top-0 z-50">
+          <div className="max-w-[1200px] mx-auto flex items-center justify-between py-3 px-6">
+            <Link href="/" className="text-[22px] font-bold text-foreground tracking-[-0.3px] leading-7">
+              CheckKal
             </Link>
-            <nav className="flex items-center gap-6 text-sm leading-[22px]">
-              <Link href="/category/protein" className="text-muted-foreground hover:text-foreground transition-colors font-normal">
+            <nav className="flex items-center gap-6">
+              <Link href="/category/protein" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
                 หมวดหมู่
               </Link>
-              <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors font-normal">
+              <Link href="/compare" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
+                เปรียบเทียบ
+              </Link>
+              <Link href="/blog" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
                 บทความ
+              </Link>
+              <Link
+                href="/search"
+                className="ml-2 px-4 py-2 bg-primary text-primary-foreground rounded-[4px] text-[14px] font-semibold hover:opacity-90 transition-opacity"
+              >
+                ค้นหาอาหาร
               </Link>
             </nav>
           </div>
@@ -74,45 +83,50 @@ export default function RootLayout({
 
         <main>{children}</main>
 
-        {/* Footer — Figma v2 */}
-        <footer className="bg-card shadow-[0px_-1px_4px_rgba(0,0,0,0.03)] pt-12 pb-8">
-          <div className="max-w-[1024px] mx-auto px-4">
+        {/* Footer — Zapier style dark */}
+        <footer className="bg-[#201515] text-[#fffefb] pt-16 pb-10">
+          <div className="max-w-[1200px] mx-auto px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
               <div>
-                <h3 className="font-semibold text-[13px] text-foreground mb-2">หมวดหมู่ยอดนิยม</h3>
-                <ul className="space-y-1.5 text-[12px] text-muted-foreground">
-                  <li><Link href="/category/protein" className="hover:text-foreground transition-colors">โปรตีน</Link></li>
-                  <li><Link href="/category/carb" className="hover:text-foreground transition-colors">คาร์โบไฮเดรต</Link></li>
-                  <li><Link href="/category/fruit" className="hover:text-foreground transition-colors">ผลไม้</Link></li>
-                  <li><Link href="/category/snack" className="hover:text-foreground transition-colors">ขนม/ของว่าง</Link></li>
+                <h3 className="font-semibold text-[14px] text-[#fffefb] mb-4 uppercase tracking-[0.5px]">หมวดหมู่</h3>
+                <ul className="space-y-2.5 text-[14px] text-[#c5c0b1]">
+                  <li><Link href="/category/protein" className="hover:text-[#fffefb] transition-colors">โปรตีน</Link></li>
+                  <li><Link href="/category/carb" className="hover:text-[#fffefb] transition-colors">คาร์โบไฮเดรต</Link></li>
+                  <li><Link href="/category/fruit" className="hover:text-[#fffefb] transition-colors">ผลไม้</Link></li>
+                  <li><Link href="/category/snack" className="hover:text-[#fffefb] transition-colors">ขนม/ของว่าง</Link></li>
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold text-[13px] text-foreground mb-2">แบรนด์</h3>
-                <ul className="space-y-1.5 text-[12px] text-muted-foreground">
-                  <li><Link href="/brand/7-eleven" className="hover:text-foreground transition-colors">เมนู 7-Eleven</Link></li>
-                  <li><Link href="/brand/cp" className="hover:text-foreground transition-colors">CP</Link></li>
-                  <li><Link href="/brand/mama" className="hover:text-foreground transition-colors">มาม่า</Link></li>
+                <h3 className="font-semibold text-[14px] text-[#fffefb] mb-4 uppercase tracking-[0.5px]">แบรนด์</h3>
+                <ul className="space-y-2.5 text-[14px] text-[#c5c0b1]">
+                  <li><Link href="/brand/7-eleven" className="hover:text-[#fffefb] transition-colors">เมนู 7-Eleven</Link></li>
+                  <li><Link href="/brand/cp" className="hover:text-[#fffefb] transition-colors">CP</Link></li>
+                  <li><Link href="/brand/mama" className="hover:text-[#fffefb] transition-colors">มาม่า</Link></li>
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold text-[13px] text-foreground mb-2">เครื่องมือ</h3>
-                <ul className="space-y-1.5 text-[12px] text-muted-foreground">
-                  <li><Link href="/compare" className="hover:text-foreground transition-colors">เปรียบเทียบอาหาร</Link></li>
-                  <li><Link href="/calories/0-200" className="hover:text-foreground transition-colors">อาหาร 0-200 แคล</Link></li>
-                  <li><Link href="/calories/200-400" className="hover:text-foreground transition-colors">อาหาร 200-400 แคล</Link></li>
+                <h3 className="font-semibold text-[14px] text-[#fffefb] mb-4 uppercase tracking-[0.5px]">เครื่องมือ</h3>
+                <ul className="space-y-2.5 text-[14px] text-[#c5c0b1]">
+                  <li><Link href="/compare" className="hover:text-[#fffefb] transition-colors">เปรียบเทียบอาหาร</Link></li>
+                  <li><Link href="/calories/0-200" className="hover:text-[#fffefb] transition-colors">อาหาร 0-200 แคล</Link></li>
+                  <li><Link href="/calories/200-400" className="hover:text-[#fffefb] transition-colors">อาหาร 200-400 แคล</Link></li>
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold text-[13px] text-foreground mb-2">บทความ</h3>
-                <ul className="space-y-1.5 text-[12px] text-muted-foreground">
-                  <li><Link href="/blog" className="hover:text-foreground transition-colors">บทความทั้งหมด</Link></li>
-                  <li><Link href="/blog/guide" className="hover:text-foreground transition-colors">คู่มือโภชนาการ</Link></li>
+                <h3 className="font-semibold text-[14px] text-[#fffefb] mb-4 uppercase tracking-[0.5px]">บทความ</h3>
+                <ul className="space-y-2.5 text-[14px] text-[#c5c0b1]">
+                  <li><Link href="/blog" className="hover:text-[#fffefb] transition-colors">บทความทั้งหมด</Link></li>
+                  <li><Link href="/blog/guide" className="hover:text-[#fffefb] transition-colors">คู่มือโภชนาการ</Link></li>
                 </ul>
               </div>
             </div>
-            <div className="mt-8 pt-4 border-t border-border text-center text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} CalCheck — ข้อมูลโภชนาการอาหารไทย ครบจบในที่เดียว
+            <div className="mt-12 pt-6 border-t border-[#36342e] flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-[#939084]">
+              <span>&copy; {new Date().getFullYear()} CheckKal — ข้อมูลโภชนาการอาหารไทย ครบจบในที่เดียว</span>
+              <div className="flex gap-6">
+                <Link href="/about" className="hover:text-[#fffefb] transition-colors">เกี่ยวกับเรา</Link>
+                <Link href="/contact" className="hover:text-[#fffefb] transition-colors">ติดต่อเรา</Link>
+                <Link href="/privacy" className="hover:text-[#fffefb] transition-colors">นโยบายความเป็นส่วนตัว</Link>
+              </div>
             </div>
           </div>
         </footer>

@@ -9,12 +9,12 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   if (q) {
     return {
       title: `ค้นหา "${q}" — แคลอรี่และโภชนาการ`,
-      description: `ผลการค้นหาแคลอรี่และข้อมูลโภชนาการของ "${q}" — CalCheck`,
+      description: `ผลการค้นหาแคลอรี่และข้อมูลโภชนาการของ "${q}" — CheckKal`,
     }
   }
   return {
     title: "ค้นหาอาหาร — แคลอรี่และข้อมูลโภชนาการ",
-    description: "ค้นหาข้อมูลแคลอรี่และโภชนาการอาหารไทย อาหารสำเร็จรูป ขนม เครื่องดื่ม — CalCheck",
+    description: "ค้นหาข้อมูลแคลอรี่และโภชนาการอาหารไทย อาหารสำเร็จรูป ขนม เครื่องดื่ม — CheckKal",
   }
 }
 
@@ -23,32 +23,34 @@ export default async function SearchPage({ searchParams }: Props) {
   const results = q ? await searchFoods(q) : await getAllFoods()
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">
+    <div className="max-w-[1200px] mx-auto px-6 py-16 md:py-20">
+      <h1 className="text-[32px] font-medium tracking-[-0.5px] mb-2">
         {q ? `ผลการค้นหา "${q}"` : "อาหารทั้งหมด"}
-        <span className="text-muted-foreground font-normal text-lg ml-2">({results.length} รายการ)</span>
       </h1>
+      <p className="text-muted-foreground font-normal text-[14px] mb-12">
+        {results.length} รายการ
+      </p>
 
       {/* Search form */}
-      <form action="/search" method="GET" className="mb-8">
-        <div className="flex gap-2">
+      <form action="/search" method="GET" className="mb-12 pb-12 border-b border-border">
+        <div className="flex gap-3">
           <input
             type="text"
             name="q"
             defaultValue={q || ""}
             placeholder="พิมพ์ชื่ออาหาร..."
-            className="flex-1 px-4 py-3 rounded-lg border border-input bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="flex-1 px-4 py-3 rounded-[5px] border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
           />
-          <button type="submit" className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90">
+          <button type="submit" className="px-6 py-3 bg-primary text-primary-foreground rounded-[4px] font-medium hover:opacity-90 transition-opacity">
             ค้นหา
           </button>
         </div>
       </form>
 
       {results.length === 0 ? (
-        <div className="text-center py-12 text-muted-foreground">
-          <p className="text-lg mb-2">ไม่พบอาหารที่ค้นหา</p>
-          <p className="text-sm">ลองค้นหาด้วยคำอื่น เช่น &ldquo;ไข่&rdquo; &ldquo;ข้าว&rdquo; &ldquo;ไก่&rdquo;</p>
+        <div className="text-center py-16 text-muted-foreground">
+          <p className="text-[16px] mb-2">ไม่พบอาหารที่ค้นหา</p>
+          <p className="text-[14px]">ลองค้นหาด้วยคำอื่น เช่น &ldquo;ไข่&rdquo; &ldquo;ข้าว&rdquo; &ldquo;ไก่&rdquo;</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -56,7 +58,7 @@ export default async function SearchPage({ searchParams }: Props) {
             <Link
               key={food.id}
               href={`/food/${food.slug}`}
-              className="flex items-center gap-4 p-4 rounded-lg border border-border bg-card hover:border-primary transition-colors"
+              className="flex items-center gap-4 p-4 rounded-[8px] border border-border bg-card hover:border-primary transition-colors"
             >
               <span className="text-3xl">{food.emoji}</span>
               <div className="flex-1 min-w-0">

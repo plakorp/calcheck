@@ -102,28 +102,28 @@ function CompareContent() {
   } : null
 
   return (
-    <div className="min-h-screen bg-white px-4 py-8">
-      <div className="mx-auto max-w-4xl">
+    <div className="min-h-screen bg-[#fffefb] px-6 py-16 md:py-20">
+      <div className="mx-auto max-w-[1200px]">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-3xl font-bold text-gray-900">
+          <h1 className="mb-2 text-[36px] font-semibold text-[#201515] tracking-[-0.5px]">
             เปรียบเทียบอาหาร
           </h1>
-          <p className="text-gray-600">เลือกอาหาร 2 รายการเพื่อดูความแตกต่างด้านโภชนาการ</p>
+          <p className="text-[#36342e]">เลือกอาหาร 2 รายการเพื่อดูความแตกต่างด้านโภชนาการ</p>
         </div>
 
         {/* Food Picker */}
-        <div className="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
+        <div className="mb-8 rounded-lg border border-[#c5c0b1] bg-white p-6">
           <div className="grid gap-4 md:grid-cols-2">
             {/* Food A Dropdown */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-[#201515] mb-2">
                 อาหารที่ 1
               </label>
               <select
                 value={selectedA}
                 onChange={(e) => setSelectedA(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-[#c5c0b1] bg-white px-4 py-2 text-[#201515] focus:border-[#ff4f00] focus:outline-none"
               >
                 <option value="">เลือกอาหาร...</option>
                 {allFoods.map(food => (
@@ -136,13 +136,13 @@ function CompareContent() {
 
             {/* Food B Dropdown */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-[#201515] mb-2">
                 อาหารที่ 2
               </label>
               <select
                 value={selectedB}
                 onChange={(e) => setSelectedB(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-[#c5c0b1] bg-white px-4 py-2 text-[#201515] focus:border-[#ff4f00] focus:outline-none"
               >
                 <option value="">เลือกอาหาร...</option>
                 {allFoods.map(food => (
@@ -157,7 +157,7 @@ function CompareContent() {
           <button
             onClick={handleCompare}
             disabled={!selectedA || !selectedB || selectedA === selectedB}
-            className="mt-4 w-full rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="mt-4 w-full rounded-lg bg-[#ff4f00] px-4 py-2 font-medium text-white hover:bg-[#e64a00] disabled:bg-[#d4cec5] disabled:cursor-not-allowed"
           >
             เปรียบเทียบ
           </button>
@@ -176,62 +176,62 @@ function CompareContent() {
 
             <div className="grid gap-6 md:grid-cols-2">
               {/* Food A Card */}
-              <div className={`rounded-lg border-2 p-6 ${isWinner(foodA, foodB) ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-white'}`}>
+              <div className={`rounded-lg border-2 p-6 ${isWinner(foodA, foodB) ? 'border-[#10b981] bg-[#f0fdf4]' : 'border-[#c5c0b1] bg-white'}`}>
                 <div className="mb-4">
                   <div className="mb-2 flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-gray-900">
+                    <h2 className="text-2xl font-bold text-[#201515]">
                       {foodA.emoji} {foodA.name_th}
                     </h2>
                     {isWinner(foodA, foodB) && (
-                      <span className="inline-block rounded-full bg-green-500 px-3 py-1 text-sm font-medium text-white">
+                      <span className="inline-block rounded-full bg-[#10b981] px-3 py-1 text-sm font-medium text-white">
                         ต่ำกว่า
                       </span>
                     )}
                   </div>
                   {foodA.name_en && (
-                    <p className="text-sm text-gray-600">{foodA.name_en}</p>
+                    <p className="text-sm text-[#36342e]">{foodA.name_en}</p>
                   )}
                 </div>
 
                 {/* Calories */}
-                <div className="mb-4 rounded-lg bg-yellow-50 p-4">
-                  <p className="text-sm text-gray-600">แคลอรี่ต่อหนึ่ง {foodA.serving_size}</p>
+                <div className="mb-4 rounded-lg bg-[#fffbeb] p-4">
+                  <p className="text-sm text-[#36342e]">แคลอรี่ต่อหนึ่ง {foodA.serving_size}</p>
                   <p className="text-3xl font-bold text-yellow-600">
                     {Math.round(foodA.calories)} kcal
                   </p>
                 </div>
 
                 {/* Macros Table */}
-                <div className="mb-4 border-t border-gray-200 pt-4">
-                  <h3 className="mb-3 font-medium text-gray-900">โภชนาการต่อหนึ่ง {foodA.serving_size}</h3>
+                <div className="mb-4 border-t border-[#c5c0b1] pt-4">
+                  <h3 className="mb-3 font-medium text-[#201515]">โภชนาการต่อหนึ่ง {foodA.serving_size}</h3>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">โปรตีน</span>
-                      <span className="font-medium text-gray-900">{foodA.protein.toFixed(1)}g</span>
+                      <span className="text-[#36342e]">โปรตีน</span>
+                      <span className="font-medium text-[#201515]">{foodA.protein.toFixed(1)}g</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">ไขมัน</span>
-                      <span className="font-medium text-gray-900">{foodA.fat.toFixed(1)}g</span>
+                      <span className="text-[#36342e]">ไขมัน</span>
+                      <span className="font-medium text-[#201515]">{foodA.fat.toFixed(1)}g</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">คาร์บ</span>
-                      <span className="font-medium text-gray-900">{foodA.carbs.toFixed(1)}g</span>
+                      <span className="text-[#36342e]">คาร์บ</span>
+                      <span className="font-medium text-[#201515]">{foodA.carbs.toFixed(1)}g</span>
                     </div>
                     {foodA.fiber !== null && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600">ไฟเบอร์</span>
-                        <span className="font-medium text-gray-900">{foodA.fiber.toFixed(1)}g</span>
+                        <span className="text-[#36342e]">ไฟเบอร์</span>
+                        <span className="font-medium text-[#201515]">{foodA.fiber.toFixed(1)}g</span>
                       </div>
                     )}
                   </div>
                 </div>
 
                 {/* Macro Bar Chart */}
-                <div className="mb-4 border-t border-gray-200 pt-4">
-                  <p className="mb-2 text-sm font-medium text-gray-900">สัดส่วนแมโคร</p>
-                  <div className="flex h-4 overflow-hidden rounded-full bg-gray-200">
+                <div className="mb-4 border-t border-[#c5c0b1] pt-4">
+                  <p className="mb-2 text-sm font-medium text-[#201515]">สัดส่วนแมโคร</p>
+                  <div className="flex h-4 overflow-hidden rounded-full bg-[#e5dfd8]">
                     <div
-                      className="bg-blue-500"
+                      className="bg-[#ff4f00]"
                       style={{ width: `${getMacroPercentages(foodA).protein}%` }}
                     />
                     <div
@@ -245,7 +245,7 @@ function CompareContent() {
                   </div>
                   <div className="mt-2 flex gap-4 text-xs">
                     <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-blue-500" />
+                      <div className="h-2 w-2 rounded-full bg-[#ff4f00]" />
                       <span>โปรตีน {getMacroPercentages(foodA).protein.toFixed(0)}%</span>
                     </div>
                     <div className="flex items-center gap-1">
@@ -262,69 +262,69 @@ function CompareContent() {
                 {/* Link to detail page */}
                 <Link
                   href={`/food/${foodA.slug}`}
-                  className="block text-center text-sm font-medium text-blue-600 hover:text-blue-700"
+                  className="block text-center text-sm font-medium text-[#ff4f00] hover:text-[#e64a00]"
                 >
                   ดูรายละเอียด →
                 </Link>
               </div>
 
               {/* Food B Card */}
-              <div className={`rounded-lg border-2 p-6 ${isWinner(foodB, foodA) ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-white'}`}>
+              <div className={`rounded-lg border-2 p-6 ${isWinner(foodB, foodA) ? 'border-[#10b981] bg-[#f0fdf4]' : 'border-[#c5c0b1] bg-white'}`}>
                 <div className="mb-4">
                   <div className="mb-2 flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-gray-900">
+                    <h2 className="text-2xl font-bold text-[#201515]">
                       {foodB.emoji} {foodB.name_th}
                     </h2>
                     {isWinner(foodB, foodA) && (
-                      <span className="inline-block rounded-full bg-green-500 px-3 py-1 text-sm font-medium text-white">
+                      <span className="inline-block rounded-full bg-[#10b981] px-3 py-1 text-sm font-medium text-white">
                         ต่ำกว่า
                       </span>
                     )}
                   </div>
                   {foodB.name_en && (
-                    <p className="text-sm text-gray-600">{foodB.name_en}</p>
+                    <p className="text-sm text-[#36342e]">{foodB.name_en}</p>
                   )}
                 </div>
 
                 {/* Calories */}
-                <div className="mb-4 rounded-lg bg-yellow-50 p-4">
-                  <p className="text-sm text-gray-600">แคลอรี่ต่อหนึ่ง {foodB.serving_size}</p>
+                <div className="mb-4 rounded-lg bg-[#fffbeb] p-4">
+                  <p className="text-sm text-[#36342e]">แคลอรี่ต่อหนึ่ง {foodB.serving_size}</p>
                   <p className="text-3xl font-bold text-yellow-600">
                     {Math.round(foodB.calories)} kcal
                   </p>
                 </div>
 
                 {/* Macros Table */}
-                <div className="mb-4 border-t border-gray-200 pt-4">
-                  <h3 className="mb-3 font-medium text-gray-900">โภชนาการต่อหนึ่ง {foodB.serving_size}</h3>
+                <div className="mb-4 border-t border-[#c5c0b1] pt-4">
+                  <h3 className="mb-3 font-medium text-[#201515]">โภชนาการต่อหนึ่ง {foodB.serving_size}</h3>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">โปรตีน</span>
-                      <span className="font-medium text-gray-900">{foodB.protein.toFixed(1)}g</span>
+                      <span className="text-[#36342e]">โปรตีน</span>
+                      <span className="font-medium text-[#201515]">{foodB.protein.toFixed(1)}g</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">ไขมัน</span>
-                      <span className="font-medium text-gray-900">{foodB.fat.toFixed(1)}g</span>
+                      <span className="text-[#36342e]">ไขมัน</span>
+                      <span className="font-medium text-[#201515]">{foodB.fat.toFixed(1)}g</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">คาร์บ</span>
-                      <span className="font-medium text-gray-900">{foodB.carbs.toFixed(1)}g</span>
+                      <span className="text-[#36342e]">คาร์บ</span>
+                      <span className="font-medium text-[#201515]">{foodB.carbs.toFixed(1)}g</span>
                     </div>
                     {foodB.fiber !== null && (
                       <div className="flex justify-between">
-                        <span className="text-gray-600">ไฟเบอร์</span>
-                        <span className="font-medium text-gray-900">{foodB.fiber.toFixed(1)}g</span>
+                        <span className="text-[#36342e]">ไฟเบอร์</span>
+                        <span className="font-medium text-[#201515]">{foodB.fiber.toFixed(1)}g</span>
                       </div>
                     )}
                   </div>
                 </div>
 
                 {/* Macro Bar Chart */}
-                <div className="mb-4 border-t border-gray-200 pt-4">
-                  <p className="mb-2 text-sm font-medium text-gray-900">สัดส่วนแมโคร</p>
-                  <div className="flex h-4 overflow-hidden rounded-full bg-gray-200">
+                <div className="mb-4 border-t border-[#c5c0b1] pt-4">
+                  <p className="mb-2 text-sm font-medium text-[#201515]">สัดส่วนแมโคร</p>
+                  <div className="flex h-4 overflow-hidden rounded-full bg-[#e5dfd8]">
                     <div
-                      className="bg-blue-500"
+                      className="bg-[#ff4f00]"
                       style={{ width: `${getMacroPercentages(foodB).protein}%` }}
                     />
                     <div
@@ -338,7 +338,7 @@ function CompareContent() {
                   </div>
                   <div className="mt-2 flex gap-4 text-xs">
                     <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-blue-500" />
+                      <div className="h-2 w-2 rounded-full bg-[#ff4f00]" />
                       <span>โปรตีน {getMacroPercentages(foodB).protein.toFixed(0)}%</span>
                     </div>
                     <div className="flex items-center gap-1">
@@ -355,7 +355,7 @@ function CompareContent() {
                 {/* Link to detail page */}
                 <Link
                   href={`/food/${foodB.slug}`}
-                  className="block text-center text-sm font-medium text-blue-600 hover:text-blue-700"
+                  className="block text-center text-sm font-medium text-[#ff4f00] hover:text-[#e64a00]"
                 >
                   ดูรายละเอียด →
                 </Link>
@@ -363,12 +363,12 @@ function CompareContent() {
             </div>
 
             {/* Comparison Summary */}
-            <div className="mt-8 rounded-lg border border-gray-200 bg-blue-50 p-6">
-              <h3 className="mb-4 font-bold text-gray-900">สรุปเปรียบเทียบ</h3>
+            <div className="mt-8 rounded-lg border border-[#c5c0b1] bg-white p-6">
+              <h3 className="mb-4 font-bold text-[#201515]">สรุปเปรียบเทียบ</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">ความแตกต่างแคลอรี่</span>
-                  <span className="font-medium text-gray-900">
+                  <span className="text-[#36342e]">ความแตกต่างแคลอรี่</span>
+                  <span className="font-medium text-[#201515]">
                     {Math.abs(foodA.calories - foodB.calories).toFixed(0)} kcal
                     {Math.abs(foodA.calories - foodB.calories) > 0 && (
                       <span className={foodA.calories < foodB.calories ? 'text-green-600' : 'text-red-600'}>
@@ -378,14 +378,14 @@ function CompareContent() {
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">โปรตีนสูงกว่า</span>
-                  <span className="font-medium text-gray-900">
+                  <span className="text-[#36342e]">โปรตีนสูงกว่า</span>
+                  <span className="font-medium text-[#201515]">
                     {foodA.protein > foodB.protein ? 'A' : 'B'} ({Math.max(foodA.protein, foodB.protein).toFixed(1)}g)
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">แคลอรี่ต่ำกว่า</span>
-                  <span className="font-medium text-gray-900">
+                  <span className="text-[#36342e]">แคลอรี่ต่ำกว่า</span>
+                  <span className="font-medium text-[#201515]">
                     {foodA.calories < foodB.calories ? 'A' : 'B'} ({Math.min(foodA.calories, foodB.calories).toFixed(0)} kcal)
                   </span>
                 </div>
@@ -396,7 +396,7 @@ function CompareContent() {
             <div className="mt-8 text-center">
               <Link
                 href="/compare"
-                className="inline-block rounded-lg bg-gray-100 px-6 py-2 font-medium text-gray-900 hover:bg-gray-200"
+                className="inline-block rounded-lg bg-[#f5f3f0] px-6 py-2 font-medium text-[#201515] hover:bg-[#e5dfd8]"
               >
                 เปรียบเทียบอาหารอื่น
               </Link>
