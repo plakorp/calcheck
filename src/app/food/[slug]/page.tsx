@@ -4,6 +4,7 @@ import { CATEGORIES, type CategoryKey } from "@/types/database"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import AdUnit from "@/components/AdUnit"
 
 // SSG: generate all food pages at build time
 export async function generateStaticParams() {
@@ -211,6 +212,11 @@ export default async function FoodPage({ params }: Props) {
           </div>
         </div>
 
+        {/* Ad Unit — หลัง nutrition card */}
+        <div className="mb-20">
+          <AdUnit slot="1234567890" format="horizontal" />
+        </div>
+
         {/* Tags */}
         {food.tags && food.tags.length > 0 && (
           <div className="flex flex-wrap gap-3 mb-20">
@@ -245,6 +251,11 @@ export default async function FoodPage({ params }: Props) {
             ))}
           </div>
         </section>
+
+        {/* Ad Unit — ก่อน related foods */}
+        <div className="mb-20">
+          <AdUnit slot="0987654321" format="auto" />
+        </div>
 
         {/* Related foods — "คนดูอาหารนี้ยังดู..." */}
         {related.length > 0 && (

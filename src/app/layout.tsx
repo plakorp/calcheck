@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import Script from "next/script"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="th">
       <head>
+        <meta name="google-adsense-account" content="ca-pub-2729965282237362" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -82,6 +84,14 @@ export default function RootLayout({
         </header>
 
         <main>{children}</main>
+
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2729965282237362"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
 
         {/* Footer — Zapier style dark */}
         <footer className="bg-[#201515] text-[#fffefb] pt-16 pb-10">
