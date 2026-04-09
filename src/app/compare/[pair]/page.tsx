@@ -48,9 +48,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!foodA || !foodB) return {}
 
+  const title = `เปรียบเทียบ ${foodA.name_th} vs ${foodB.name_th} — อะไรดีกว่า?`
+  const description = `เปรียบเทียบแคลอรี่และโภชนาการของ ${foodA.name_th} (${Math.round(foodA.calories)} kcal) กับ ${foodB.name_th} (${Math.round(foodB.calories)} kcal) — ดูโปรตีน ไขมัน และคาร์บไฮเดรต`
+  const url = `https://checkkal.com/compare/${pair}`
+
   return {
-    title: `เปรียบเทียบ ${foodA.name_th} vs ${foodB.name_th} — อะไรดีกว่า?`,
-    description: `เปรียบเทียบแคลอรี่และโภชนาการของ ${foodA.name_th} (${Math.round(foodA.calories)} kcal) กับ ${foodB.name_th} (${Math.round(foodB.calories)} kcal) — ดูโปรตีน ไขมัน และคาร์บไฮเดรต`,
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "CheckKal",
+      locale: "th_TH",
+      type: "website",
+    },
   }
 }
 

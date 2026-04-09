@@ -15,9 +15,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cat = CATEGORIES[category as CategoryKey]
   if (!cat) return {}
 
+  const title = `อาหารหมวด${cat.label} — แคลอรี่และโภชนาการ`
+  const description = `รวมข้อมูลแคลอรี่และโภชนาการอาหารหมวด${cat.label}ทั้งหมด พร้อมเปรียบเทียบ — CheckKal`
+  const url = `https://checkkal.com/category/${category}`
+
   return {
-    title: `อาหารหมวด${cat.label} — แคลอรี่และโภชนาการ`,
-    description: `รวมข้อมูลแคลอรี่และโภชนาการอาหารหมวด${cat.label}ทั้งหมด พร้อมเปรียบเทียบ — CheckKal`,
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "CheckKal",
+      locale: "th_TH",
+      type: "website",
+    },
   }
 }
 

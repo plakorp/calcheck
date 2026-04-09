@@ -19,9 +19,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const food = await getFoodBySlug(slug)
   if (!food) return {}
 
+  const title = generateFoodTitle(food.name_th, food.calories)
+  const description = generateFoodDescription(food.name_th, food.calories, food.protein, food.fat, food.carbs, food.serving_size)
+  const url = `https://checkkal.com/food/${slug}`
+
   return {
-    title: generateFoodTitle(food.name_th, food.calories),
-    description: generateFoodDescription(food.name_th, food.calories, food.protein, food.fat, food.carbs, food.serving_size),
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "CheckKal",
+      locale: "th_TH",
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
   }
 }
 
