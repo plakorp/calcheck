@@ -70,6 +70,9 @@ export default function RootLayout({
               <Link href="/compare" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
                 เปรียบเทียบ
               </Link>
+              <Link href="/bmi-tdee" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
+                BMI & TDEE
+              </Link>
               <Link href="/blog" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
                 บทความ
               </Link>
@@ -118,6 +121,7 @@ export default function RootLayout({
                 <h3 className="font-semibold text-[14px] text-[#fffefb] mb-4 uppercase tracking-[0.5px]">เครื่องมือ</h3>
                 <ul className="space-y-2.5 text-[14px] text-[#c5c0b1]">
                   <li><Link href="/compare" className="hover:text-[#fffefb] transition-colors">เปรียบเทียบอาหาร</Link></li>
+                  <li><Link href="/bmi-tdee" className="hover:text-[#fffefb] transition-colors">คำนวณ BMI & TDEE</Link></li>
                   <li><Link href="/calories/0-200" className="hover:text-[#fffefb] transition-colors">อาหาร 0-200 แคล</Link></li>
                   <li><Link href="/calories/200-400" className="hover:text-[#fffefb] transition-colors">อาหาร 200-400 แคล</Link></li>
                 </ul>
