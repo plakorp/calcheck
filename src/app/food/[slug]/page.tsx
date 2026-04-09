@@ -160,7 +160,7 @@ export default async function FoodPage({ params }: Props) {
         </nav>
 
         {/* ── Title — full width, outside grid ───────────────────────────── */}
-        <h1 className="text-[36px] font-bold text-foreground mb-8 tracking-[-0.5px] leading-tight">
+        <h1 className="text-[26px] sm:text-[32px] lg:text-[36px] font-bold text-foreground mb-8 tracking-[-0.5px] leading-tight">
           {food.name_th}
         </h1>
 
@@ -187,7 +187,7 @@ export default async function FoodPage({ params }: Props) {
 
             {/* Category */}
             <div className="mb-5">
-              <p className="text-sm font-semibold text-foreground mb-3">Category</p>
+              <p className="text-sm font-semibold text-foreground mb-3">หมวดหมู่</p>
               <div className="flex flex-wrap gap-2">
                 {cat && (
                   <Link
@@ -250,17 +250,17 @@ export default async function FoodPage({ params }: Props) {
               <div className="py-4 px-2 text-center">
                 <div className="text-[22px] font-bold text-blue-500 leading-none mb-1">{food.protein}g</div>
                 <div className="text-[11px] text-muted-foreground leading-tight">โปรตีน</div>
-                <div className="text-[11px] text-blue-500 leading-tight">{proteinCalPct.toFixed(1)}%</div>
+                <div className="text-[11px] text-blue-500 leading-tight">{Math.round(proteinCalPct)}%</div>
               </div>
               <div className="py-4 px-2 text-center">
                 <div className="text-[22px] font-bold text-amber-500 leading-none mb-1">{food.fat}g</div>
                 <div className="text-[11px] text-muted-foreground leading-tight">ไขมัน</div>
-                <div className="text-[11px] text-amber-500 leading-tight">{fatCalPct.toFixed(1)}%</div>
+                <div className="text-[11px] text-amber-500 leading-tight">{Math.round(fatCalPct)}%</div>
               </div>
               <div className="py-4 px-2 text-center">
                 <div className="text-[22px] font-bold text-primary leading-none mb-1">{food.carbs}g</div>
                 <div className="text-[11px] text-muted-foreground leading-tight">คาร์โบไฮเดรต</div>
-                <div className="text-[11px] text-primary leading-tight">{carbsCalPct.toFixed(1)}%</div>
+                <div className="text-[11px] text-primary leading-tight">{Math.round(carbsCalPct)}%</div>
               </div>
             </div>
 
@@ -307,11 +307,11 @@ export default async function FoodPage({ params }: Props) {
                 className="group border border-border rounded-[8px] overflow-hidden"
                 open={i === 0}
               >
-                <summary className="p-4 bg-card cursor-pointer font-medium text-foreground hover:bg-secondary transition-colors flex items-center justify-between">
+                <summary className="p-4 bg-card cursor-pointer font-medium text-foreground hover:bg-secondary transition-colors duration-200 flex items-center justify-between">
                   {faq.question}
-                  <span className="text-muted-foreground text-sm group-open:rotate-180 transition-transform">▼</span>
+                  <svg className="w-4 h-4 text-muted-foreground shrink-0 ml-2 group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </summary>
-                <p className="p-4 bg-secondary text-sm text-foreground border-t border-border">{faq.answer}</p>
+                <div className="px-4 pb-4 bg-secondary text-sm text-foreground border-t border-border pt-4">{faq.answer}</div>
               </details>
             ))}
           </div>
@@ -331,7 +331,7 @@ export default async function FoodPage({ params }: Props) {
                 <Link
                   key={r.id}
                   href={`/food/${r.slug}`}
-                  className="group p-4 rounded-[8px] border border-border bg-card hover:border-primary transition-colors"
+                  className="group p-4 rounded-[8px] border border-border bg-card hover:border-primary hover:shadow-md transition-all duration-200"
                 >
                   <div className="flex items-start gap-2 mb-3">
                     <span className="text-2xl flex-shrink-0">{r.emoji}</span>

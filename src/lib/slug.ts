@@ -30,14 +30,14 @@ export function generateSlug(nameTh: string, nameEn?: string | null): string {
  * Generate SEO-friendly title
  */
 export function generateFoodTitle(name: string, calories: number): string {
-  return `${name} กี่แคล? ${Math.round(calories)} kcal | แคลอรี่ โปรตีน ไขมัน คาร์บ — CalCheck`
+  return `${name} กี่แคล? ${Math.round(calories)} kcal | แคลอรี่ โปรตีน ไขมัน คาร์บ — CheckKal`
 }
 
 /**
  * Generate meta description
  */
 export function generateFoodDescription(name: string, calories: number, protein: number, fat: number, carbs: number, servingSize: string): string {
-  return `${name} มี ${Math.round(calories)} แคลอรี่ โปรตีน ${protein}g ไขมัน ${fat}g คาร์บ ${carbs}g ต่อ ${servingSize} ดูข้อมูลโภชนาการครบ พร้อมเทียบกับอาหารอื่น | CalCheck`
+  return `${name} มี ${Math.round(calories)} แคลอรี่ โปรตีน ${protein}g ไขมัน ${fat}g คาร์บ ${carbs}g ต่อ ${servingSize} ดูข้อมูลโภชนาการครบ พร้อมเทียบกับอาหารอื่น | CheckKal`
 }
 
 /**
