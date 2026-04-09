@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { getAllFoods } from "@/lib/food-data"
 
 const INDEXNOW_KEY = "d194a4a22ed5457294861d90b850fe75"
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://checkkal.com"
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.checkkal.com"
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow"
 
 // POST /api/indexnow

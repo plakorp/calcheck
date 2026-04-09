@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
-import { generateBlogPost, BLOG_TOPICS, type BlogTopic } from "@/lib/blog-generator"
+import { generateBlogPost, BLOG_TOPICS } from "@/lib/blog-generator"
 
+// ใช้ service role key เพื่อ insert ได้โดยไม่ถูก RLS block
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
