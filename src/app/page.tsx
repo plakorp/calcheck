@@ -20,14 +20,11 @@ export default async function Home() {
       {/* Hero — Zapier style */}
       <section className="flex justify-center px-6 border-b border-border">
         <div className="w-full max-w-[1200px] flex flex-col items-center py-20 md:py-28">
-          <p className="text-[14px] font-semibold uppercase tracking-[0.5px] text-muted-foreground mb-4">
-            ฐานข้อมูลโภชนาการอาหารไทย
-          </p>
           <h1 className="text-[40px] md:text-[56px] font-medium tracking-[-1px] leading-[0.90] text-center text-foreground">
             ค้นหาแคลอรี่อาหาร
           </h1>
           <p className="text-[18px] md:text-[20px] text-[#36342e] leading-[1.4] text-center mt-6 max-w-[600px]">
-            ข้อมูลแคลอรี่ โปรตีน ไขมัน คาร์บ ของอาหารไทยหลากหลายชนิด พร้อมเปรียบเทียบ ครบจบในที่เดียว
+            ข้อมูลแคลอรี่ โปรตีน ไขมัน คาร์บ ของอาหารไทยหลากหลายชนิด ครบจบในที่เดียว
           </p>
 
           {/* Search box */}
@@ -193,46 +190,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Calorie ranges */}
-      <section className="flex justify-center px-6 py-16 md:py-20 border-t border-border">
-        <div className="w-full max-w-[1200px]">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.5px] text-muted-foreground mb-2">ค้นหาตามแคลอรี่</p>
-          <h2 className="text-[32px] font-medium text-foreground mb-8 tracking-[-0.5px]">เลือกตามช่วงแคลอรี่ที่ต้องการ</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { range: "0-100", label: "0–100 แคล", desc: "แคลอรี่ต่ำมาก" },
-              { range: "100-200", label: "100–200 แคล", desc: "แคลอรี่ต่ำ" },
-              { range: "200-400", label: "200–400 แคล", desc: "แคลอรี่ปานกลาง" },
-              { range: "400-plus", label: "400+ แคล", desc: "แคลอรี่สูง" },
-            ].map(item => (
-              <Link
-                key={item.range}
-                href={`/calories/${item.range}`}
-                className="p-6 rounded-[8px] border border-border bg-card hover:border-[#939084] transition-colors text-center"
-              >
-                <div className="font-medium text-primary text-[20px]">{item.label}</div>
-                <div className="text-[14px] text-muted-foreground mt-1">{item.desc}</div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SEO content */}
-      <section className="flex justify-center px-6 py-16 md:py-20 border-t border-border">
-        <div className="w-full max-w-[1200px] p-8 rounded-[8px] border border-border bg-card">
-          <h2 className="text-[18px] font-semibold text-foreground mb-4">CheckKal — ฐานข้อมูลโภชนาการอาหารไทย</h2>
-          <p className="text-[16px] text-[#36342e] leading-[1.6] mb-3">
-            CheckKal คือเว็บไซต์ค้นหาข้อมูลโภชนาการอาหารไทยที่ครบถ้วนที่สุด รวมข้อมูลแคลอรี่ โปรตีน ไขมัน คาร์โบไฮเดรต
-            ของอาหารไทยหลากหลายชนิด ตั้งแต่อาหารตามสั่ง อาหารสำเร็จรูป เมนู 7-Eleven ขนมขบเคี้ยว ผลไม้ เครื่องดื่ม
-            ไปจนถึงอาหารคลีนสำหรับคนรักสุขภาพ พร้อมเครื่องมือเปรียบเทียบอาหาร ช่วยให้คุณตัดสินใจเลือกกินได้ง่ายขึ้น
-          </p>
-          <p className="text-[16px] text-[#36342e] leading-[1.6]">
-            ไม่ว่าคุณจะกำลังลดน้ำหนัก เพิ่มกล้ามเนื้อ หรือแค่อยากรู้ว่าอาหารที่กินอยู่มีแคลอรี่เท่าไหร่
-            CheckKal มีคำตอบให้คุณ ค้นหาได้เลย!
-          </p>
-        </div>
-      </section>
     </>
   )
 }

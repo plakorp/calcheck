@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     default: "CheckKal — แคลอรี่อาหาร โภชนาการครบ ค้นหาง่าย",
     template: "%s | CheckKal",
   },
-  description: "ค้นหาแคลอรี่และข้อมูลโภชนาการอาหารไทย อาหารเซเว่น อาหารคลีน พร้อมเปรียบเทียบ ครบจบในที่เดียว",
+  description: "ค้นหาแคลอรี่และข้อมูลโภชนาการอาหารไทย อาหารเซเว่น อาหารคลีน ครบจบในที่เดียว",
   keywords: ["แคลอรี่", "โภชนาการ", "อาหารไทย", "ลดน้ำหนัก", "แคลอรี่อาหาร", "กี่แคล", "checkkal"],
   openGraph: {
     type: "website",
@@ -25,12 +25,12 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "CheckKal",
-  url: "https://checkkal.com",
+  url: "https://www.checkkal.com",
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: "https://checkkal.com/search?q={search_term_string}",
+      urlTemplate: "https://www.checkkal.com/search?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
   },
@@ -66,9 +66,6 @@ export default function RootLayout({
             <nav className="flex items-center gap-6">
               <Link href="/category/protein" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
                 หมวดหมู่
-              </Link>
-              <Link href="/compare" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
-                เปรียบเทียบ
               </Link>
               <Link href="/bmi-tdee" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
                 BMI & TDEE
@@ -120,7 +117,6 @@ export default function RootLayout({
               <div>
                 <h3 className="font-semibold text-[14px] text-[#fffefb] mb-4 uppercase tracking-[0.5px]">เครื่องมือ</h3>
                 <ul className="space-y-2.5 text-[14px] text-[#c5c0b1]">
-                  <li><Link href="/compare" className="hover:text-[#fffefb] transition-colors">เปรียบเทียบอาหาร</Link></li>
                   <li><Link href="/bmi-tdee" className="hover:text-[#fffefb] transition-colors">คำนวณ BMI & TDEE</Link></li>
                   <li><Link href="/calories/0-200" className="hover:text-[#fffefb] transition-colors">อาหาร 0-200 แคล</Link></li>
                   <li><Link href="/calories/200-400" className="hover:text-[#fffefb] transition-colors">อาหาร 200-400 แคล</Link></li>

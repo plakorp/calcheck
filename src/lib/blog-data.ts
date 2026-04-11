@@ -436,6 +436,73 @@ export async function getRelatedPosts(post: BlogPost, limit = 4): Promise<BlogPo
   return (data || []) as BlogPost[]
 }
 
+// Get articles related to a specific food — combines:
+//   (B) blog_posts.related_food_slugs array containing the food slug
+//   (C) full-text match on name_th / name_en in title or content
+// Merges results, dedupes by id, then caps by limit.
+export async function getArticlesForFood(
+  foodSlug: string,
+  foodNameTh: string,
+  foodNameEn?: string | null,
+  limit = 3
+): Promise<BlogPost[]> {
+  const results = new Map<string, BlogPost>()
+
+  // (B) related_food_slugs contains this food
+  const { data: linked } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('status', 'published')
+    .contains('related_food_slugs', [foodSlug])
+    .order('published_at', { ascending: false })
+    .limit(limit)
+
+  for (const p of (linked || []) as BlogPost[]) {
+    results.set(p.id, p)
+  }
+
+  // (C) full-text: match Thai name or English name in title/content
+  if (results.size < limit) {
+    const terms = [foodNameTh, foodNameEn].filter(Boolean) as string[]
+    for (const term of terms) {
+      if (results.size >= limit) break
+      const escaped = term.replace(/[%,]/g, ' ').trim()
+      if (!escaped) continue
+      const { data: matched } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('status', 'published')
+        .or(`title.ilike.%${escaped}%,content.ilike.%${escaped}%`)
+        .order('published_at', { ascending: false })
+        .limit(limit)
+
+      for (const p of (matched || []) as BlogPost[]) {
+        if (!results.has(p.id)) results.set(p.id, p)
+        if (results.size >= limit) break
+      }
+    }
+  }
+
+  // Static fallback (BLOG_ARTICLES)
+  if (results.size < limit) {
+    for (const a of BLOG_ARTICLES) {
+      if (results.size >= limit) break
+      const hay = `${a.title} ${a.content}`.toLowerCase()
+      const slugMatch = a.related_foods?.includes(foodSlug)
+      const textMatch = foodNameTh && hay.includes(foodNameTh.toLowerCase())
+      const enMatch = foodNameEn && hay.includes(foodNameEn.toLowerCase())
+      if (slugMatch || textMatch || enMatch) {
+        const post = staticToBlogPost(a)
+        if (!Array.from(results.values()).some(p => p.slug === post.slug)) {
+          results.set(post.id, post)
+        }
+      }
+    }
+  }
+
+  return Array.from(results.values()).slice(0, limit)
+}
+
 // Generate blog slug from title
 export function generateBlogSlug(title: string): string {
   // Try to extract English-friendly parts, otherwise encode Thai

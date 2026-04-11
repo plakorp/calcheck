@@ -1,5 +1,6 @@
 import { getAllFoods, getFoodBySlug, getRelatedFoods } from "@/lib/food-data"
-import { generateFoodTitle, generateFoodDescription, generateFoodFAQ } from "@/lib/slug"
+import { generateFoodTitle, generateFoodDescription } from "@/lib/slug"
+import { getArticlesForFood } from "@/lib/blog-data"
 import { CATEGORIES, type CategoryKey } from "@/types/database"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = generateFoodTitle(food.name_th, food.calories)
   const description = generateFoodDescription(food.name_th, food.calories, food.protein, food.fat, food.carbs, food.serving_size)
-  const url = `https://checkkal.com/food/${slug}`
+  const url = `https://www.checkkal.com/food/${slug}`
 
   return {
     title,
@@ -92,7 +93,7 @@ export default async function FoodPage({ params }: Props) {
   if (!food) notFound()
 
   const related = await getRelatedFoods(food)
-  const faqs = generateFoodFAQ(food.name_th, food.calories, food.protein)
+  const relatedArticles = await getArticlesForFood(food.slug, food.name_th, food.name_en, 3)
   const cat = CATEGORIES[food.category as CategoryKey]
 
   // ── Structured data ──────────────────────────────────────────────────────
@@ -107,23 +108,13 @@ export default async function FoodPage({ params }: Props) {
     servingSize: food.serving_size,
   }
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map(faq => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: { "@type": "Answer", text: faq.answer },
-    })),
-  }
-
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "หน้าแรก", item: "https://checkkal.com" },
-      { "@type": "ListItem", position: 2, name: cat?.label || food.category, item: `https://checkkal.com/category/${food.category}` },
-      { "@type": "ListItem", position: 3, name: food.name_th, item: `https://checkkal.com/food/${food.slug}` },
+      { "@type": "ListItem", position: 1, name: "หน้าแรก", item: "https://www.checkkal.com" },
+      { "@type": "ListItem", position: 2, name: cat?.label || food.category, item: `https://www.checkkal.com/category/${food.category}` },
+      { "@type": "ListItem", position: 3, name: food.name_th, item: `https://www.checkkal.com/food/${food.slug}` },
     ],
   }
 
@@ -145,7 +136,6 @@ export default async function FoodPage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(nutritionSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       <main className="max-w-[1200px] mx-auto px-6 py-10">
@@ -160,9 +150,14 @@ export default async function FoodPage({ params }: Props) {
         </nav>
 
         {/* ── Title — full width, outside grid ───────────────────────────── */}
-        <h1 className="text-[26px] sm:text-[32px] lg:text-[36px] font-bold text-foreground mb-8 tracking-[-0.5px] leading-tight">
+        <h1 className="text-[26px] sm:text-[32px] lg:text-[36px] font-bold text-foreground mb-2 tracking-[-0.5px] leading-tight">
           {food.name_th}
         </h1>
+        {food.name_en && (
+          <p className="text-[16px] sm:text-[18px] text-muted-foreground mb-8 italic">
+            {food.name_en.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase())}
+          </p>
+        )}
 
         {/* ── Two-column layout ───────────────────────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10 mb-16">
@@ -297,26 +292,6 @@ export default async function FoodPage({ params }: Props) {
           <AdUnit slot="1234567890" format="horizontal" />
         </div>
 
-        {/* ── FAQ section ────────────────────────────────────────────────── */}
-        <section className="mb-16">
-          <h2 className="text-[28px] font-semibold text-foreground mb-6 tracking-[-0.5px]">คำถามที่พบบ่อย</h2>
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <details
-                key={i}
-                className="group border border-border rounded-[8px] overflow-hidden"
-                open={i === 0}
-              >
-                <summary className="p-4 bg-card cursor-pointer font-medium text-foreground hover:bg-secondary transition-colors duration-200 flex items-center justify-between">
-                  {faq.question}
-                  <svg className="w-4 h-4 text-muted-foreground shrink-0 ml-2 group-open:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </summary>
-                <div className="px-4 pb-4 bg-secondary text-sm text-foreground border-t border-border pt-4">{faq.answer}</div>
-              </details>
-            ))}
-          </div>
-        </section>
-
         {/* ── Ad Unit 2 ──────────────────────────────────────────────────── */}
         <div className="mb-16">
           <AdUnit slot="0987654321" format="auto" />
@@ -347,18 +322,43 @@ export default async function FoodPage({ params }: Props) {
           </section>
         )}
 
-        {/* ── Compare CTA ────────────────────────────────────────────────── */}
-        <section className="mb-16">
-          <div className="bg-secondary rounded-[8px] p-8 text-center border border-border">
-            <p className="text-sm text-muted-foreground mb-4">อยากเปรียบเทียบกับอาหารอื่น?</p>
-            <Link
-              href={`/compare?a=${food.slug}`}
-              className="inline-block bg-primary text-white px-4 py-2 rounded-[4px] font-medium hover:bg-primary/90 transition-colors text-sm"
-            >
-              เปรียบเทียบ {food.name_th} กับอาหารอื่น →
-            </Link>
-          </div>
-        </section>
+        {/* ── Related articles ───────────────────────────────────────────── */}
+        {relatedArticles.length > 0 && (
+          <section className="mb-16">
+            <h2 className="text-[28px] font-semibold text-foreground mb-6 tracking-[-0.5px]">
+              บทความที่เกี่ยวข้องกับ{food.name_th}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {relatedArticles.map(article => (
+                <Link
+                  key={article.id}
+                  href={`/blog/${article.slug}`}
+                  className="rounded-[8px] border border-border bg-card overflow-hidden hover:border-primary hover:shadow-md transition-all duration-200 flex flex-col"
+                >
+                  <div className="bg-secondary h-40 w-full flex items-center justify-center text-5xl">
+                    {article.cover_image_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={article.cover_image_url} alt={article.title} className="w-full h-full object-cover" />
+                    ) : '📝'}
+                  </div>
+                  <div className="p-5 flex flex-col gap-2 flex-1">
+                    <span className="self-start text-[12px] font-semibold uppercase tracking-[0.5px] text-primary">
+                      {article.category}
+                    </span>
+                    <h3 className="text-[16px] font-semibold text-foreground leading-[1.3] line-clamp-2 tracking-[-0.16px]">
+                      {article.title}
+                    </h3>
+                    {article.excerpt && (
+                      <p className="text-[14px] text-muted-foreground leading-[1.5] line-clamp-2">
+                        {article.excerpt}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
       </main>
     </>

@@ -4,7 +4,7 @@ import { getPublishedPosts } from "@/lib/blog-data"
 import { CATEGORIES } from "@/types/database"
 import type { MetadataRoute } from "next"
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://checkkal.com"
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.checkkal.com"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const foods = await getAllFoods()
@@ -14,7 +14,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: now, changeFrequency: "daily", priority: 1.0 },
     { url: `${SITE_URL}/search`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
-    { url: `${SITE_URL}/compare`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
   ]
 
@@ -33,20 +32,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "monthly" as const,
     priority: 0.9,
   }))
-
-  // Compare pages (all permutations for maximum SEO coverage)
-  const comparePages: MetadataRoute.Sitemap = []
-  const maxCompare = Math.min(foods.length, 50) // cap at 50 to keep sitemap manageable
-  for (let i = 0; i < maxCompare; i++) {
-    for (let j = i + 1; j < maxCompare; j++) {
-      comparePages.push({
-        url: `${SITE_URL}/compare/${foods[i].slug}-vs-${foods[j].slug}`,
-        lastModified: now,
-        changeFrequency: "monthly" as const,
-        priority: 0.6,
-      })
-    }
-  }
 
   // Blog posts — Supabase (Phase 2) + static fallback (Phase 1)
   const supabasePosts = await getPublishedPosts()
@@ -75,7 +60,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticPages,
     ...categoryPages,
     ...foodPages,
-    ...comparePages,
     ...blogPages,
     ...staticBlogPages,
   ]
