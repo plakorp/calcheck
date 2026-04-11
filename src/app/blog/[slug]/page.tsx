@@ -3,7 +3,10 @@ import { BLOG_CATEGORIES, type BlogCategoryKey } from '@/types/blog'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
+import BlogContent from '@/components/BlogContent'
+import BlogCardImage from '@/components/BlogCardImage'
+import { stripTitleEmoji } from '@/lib/blog-utils'
+import { getFallbackCover } from '@/lib/blog-cover-fallback'
 
 // Force dynamic rendering — Thai slugs + Supabase data need server-side
 export const dynamic = 'force-dynamic'
@@ -15,8 +18,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlug(slug)
   if (!post) return {}
 
+  const cleanTitle = stripTitleEmoji(post.meta_title || post.title)
   return {
-    title: post.meta_title || post.title,
+    title: cleanTitle,
     description: post.meta_description || post.excerpt || undefined,
   }
 }
@@ -29,12 +33,13 @@ export default async function BlogPage({ params }: Props) {
   const related = await getRelatedPosts(post)
   const catKey = post.category as BlogCategoryKey
   const cat = BLOG_CATEGORIES[catKey] || { label: post.category, emoji: '📝' }
+  const cleanTitle = stripTitleEmoji(post.title)
 
   // Structured data: Article schema
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: post.title,
+    headline: cleanTitle,
     description: post.excerpt || post.meta_description,
     image: post.cover_image_url || undefined,
     author: {
@@ -50,9 +55,9 @@ export default async function BlogPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: 'https://checkkal.com' },
-      { '@type': 'ListItem', position: 2, name: 'บทความ', item: 'https://checkkal.com/blog' },
-      { '@type': 'ListItem', position: 3, name: post.title, item: `https://checkkal.com/blog/${post.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: 'https://www.checkkal.com' },
+      { '@type': 'ListItem', position: 2, name: 'บทความ', item: 'https://www.checkkal.com/blog' },
+      { '@type': 'ListItem', position: 3, name: cleanTitle, item: `https://www.checkkal.com/blog/${post.slug}` },
     ],
   }
 
@@ -82,26 +87,21 @@ export default async function BlogPage({ params }: Props) {
               บทความ
             </Link>
             <span>/</span>
-            <span className="text-[#201515]">{post.title}</span>
+            <span className="text-[#201515]">{cleanTitle}</span>
           </nav>
 
-          {/* Cover image */}
-          {post.cover_image_url && (
-            <div className="mb-8 rounded-lg overflow-hidden h-[400px] bg-muted border border-[#c5c0b1]">
-              <Image
-                src={post.cover_image_url}
-                alt={post.title}
-                width={1024}
-                height={400}
-                className="w-full h-full object-cover"
-                priority
-              />
-            </div>
-          )}
+          {/* Cover image — always render with fallback */}
+          <div className="mb-8 rounded-lg overflow-hidden h-[400px] bg-muted border border-[#c5c0b1]">
+            <BlogCardImage
+              src={post.cover_image_url}
+              alt={cleanTitle}
+              fallbackCategory={post.category}
+            />
+          </div>
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-[36px] font-semibold text-[#201515] mb-6 tracking-[-0.5px]">{post.title}</h1>
+            <h1 className="text-[36px] font-semibold text-[#201515] mb-6 tracking-[-0.5px]">{cleanTitle}</h1>
 
             {/* Meta info */}
             <div className="flex flex-wrap gap-4 items-center pb-8 border-b border-[#c5c0b1]">
@@ -119,11 +119,9 @@ export default async function BlogPage({ params }: Props) {
           </div>
 
           {/* Article content */}
-          <div className="prose prose-sm max-w-none mb-8 text-[#36342e] prose-headings:font-semibold prose-headings:text-[#201515] prose-strong:text-[#201515] prose-a:text-[#ff4f00]">
-            <div className="whitespace-pre-wrap text-base leading-relaxed text-[#36342e]">
-              {post.content}
-            </div>
-          </div>
+          <article className="mb-8">
+            <BlogContent content={post.content} />
+          </article>
 
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
@@ -175,9 +173,13 @@ export default async function BlogPage({ params }: Props) {
                       href={`/blog/${relatedPost.slug}`}
                       className="flex flex-col h-full rounded-[8px] border border-border bg-card overflow-hidden hover:border-[#939084] transition-colors"
                     >
-                      {/* Emoji placeholder */}
-                      <div className="bg-[#f0ebe6] h-40 w-full flex items-center justify-center">
-                        <span className="text-6xl">{relatedCat.emoji}</span>
+                      {/* Cover image with fallback */}
+                      <div className="bg-muted h-40 w-full overflow-hidden">
+                        <BlogCardImage
+                          src={relatedPost.cover_image_url}
+                          alt={stripTitleEmoji(relatedPost.title)}
+                          fallbackCategory={relatedPost.category}
+                        />
                       </div>
 
                       {/* Content */}
@@ -191,7 +193,7 @@ export default async function BlogPage({ params }: Props) {
 
                         {/* Title */}
                         <h3 className="font-semibold text-[#201515] mb-2 line-clamp-2 text-[15px] leading-[22px]">
-                          {relatedPost.title}
+                          {stripTitleEmoji(relatedPost.title)}
                         </h3>
 
                         {/* Description */}

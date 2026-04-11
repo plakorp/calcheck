@@ -3,6 +3,8 @@ import { BLOG_CATEGORIES, type BlogCategoryKey } from '@/types/blog'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { stripTitleEmoji } from '@/lib/blog-utils'
+import BlogCardImage from '@/components/BlogCardImage'
 
 export const dynamic = 'force-dynamic'
 
@@ -59,13 +61,13 @@ export default async function BlogPage({ searchParams }: Props) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://checkkal.com',
+        item: 'https://www.checkkal.com',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'บทความ',
-        item: 'https://checkkal.com/blog',
+        item: 'https://www.checkkal.com/blog',
       },
     ],
   }
@@ -76,12 +78,12 @@ export default async function BlogPage({ searchParams }: Props) {
     '@type': 'Blog',
     name: 'CheckKal Blog',
     description: 'บทความสุขภาพและโภชนาการ',
-    url: 'https://checkkal.com/blog',
+    url: 'https://www.checkkal.com/blog',
     blogPost: posts.map(post => ({
       '@type': 'BlogPosting',
       headline: post.title,
       description: post.meta_description || post.excerpt,
-      image: post.cover_image_url || 'https://checkkal.com/og-image.png',
+      image: post.cover_image_url || 'https://www.checkkal.com/og-image.png',
       datePublished: post.published_at,
       dateModified: post.updated_at,
       author: {
@@ -174,23 +176,13 @@ export default async function BlogPage({ searchParams }: Props) {
                       href={`/blog/${post.slug}`}
                       className="flex flex-col h-full rounded-[8px] border border-border bg-card overflow-hidden hover:border-[#939084] transition-colors"
                     >
-                      {/* Cover Image or Placeholder */}
-                      <div
-                        className={`bg-muted h-40 w-full flex items-center justify-center text-4xl ${
-                          post.cover_image_url ? '' : 'opacity-60'
-                        }`}
-                      >
-                        {post.cover_image_url ? (
-                          <img
-                            src={post.cover_image_url}
-                            alt={post.title}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <span className="text-6xl">
-                            {categoryLabel?.emoji || '📝'}
-                          </span>
-                        )}
+                      {/* Cover Image with fallback */}
+                      <div className="bg-muted h-40 w-full overflow-hidden">
+                        <BlogCardImage
+                          src={post.cover_image_url}
+                          alt={stripTitleEmoji(post.title)}
+                          fallbackCategory={post.category}
+                        />
                       </div>
 
                       {/* Content */}
@@ -206,7 +198,7 @@ export default async function BlogPage({ searchParams }: Props) {
 
                         {/* Title */}
                         <h3 className="font-semibold text-foreground mb-2 line-clamp-2 text-[15px] leading-[22px]">
-                          {post.title}
+                          {stripTitleEmoji(post.title)}
                         </h3>
 
                         {/* Description */}

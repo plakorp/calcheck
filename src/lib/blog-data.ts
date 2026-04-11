@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import type { BlogPost } from '@/types/blog'
+import { getFallbackCover } from '@/lib/blog-cover-fallback'
 
 /**
  * Blog data layer — Supabase-backed with static fallback
@@ -319,7 +320,7 @@ function staticToBlogPost(article: BlogArticle): BlogPost {
     slug: article.slug,
     excerpt: article.description,
     content: article.content,
-    cover_image_url: null,
+    cover_image_url: getFallbackCover(article.category),
     category: article.category,
     tags: article.tags,
     meta_title: article.title,
