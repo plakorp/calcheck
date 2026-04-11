@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
-import { generateBlogPost, BLOG_TOPICS } from "@/lib/blog-generator"
+import { generateBlogPost, BLOG_TOPICS, type BlogTopic } from "@/lib/blog-generator"
+import { submitToIndexNow, SITE_URL } from "@/lib/indexnow"
 
 // ใช้ service role key เพื่อ insert ได้โดยไม่ถูก RLS block
 const supabase = createClient(
@@ -55,6 +56,7 @@ export async function POST(req: Request) {
 
     // Gen และ save แต่ละบทความ
     const results = []
+    const publishedSlugs: string[] = []
     for (const topic of topicsToGenerate) {
       // Skip ถ้ามีอยู่แล้ว
       if (existingSlugs.has(topic.slug)) {
@@ -85,16 +87,30 @@ export async function POST(req: Request) {
         } else {
           results.push({ slug: topic.slug, title: post.title, status: "created" })
           existingSlugs.add(topic.slug)
+          publishedSlugs.push(topic.slug)
         }
       } catch (err) {
         results.push({ slug: topic.slug, status: "error", reason: String(err) })
       }
     }
 
+    // Submit fresh URLs to IndexNow in a single batch (Bing, Yandex, etc.)
+    let indexnow: { ok: boolean; submitted: number } | null = null
+    if (publishedSlugs.length > 0) {
+      const urls = [
+        ...publishedSlugs.map(s => `${SITE_URL}/blog/${s}`),
+        `${SITE_URL}/blog`,
+        `${SITE_URL}/sitemap.xml`,
+      ]
+      const r = await submitToIndexNow(urls)
+      indexnow = { ok: r.ok, submitted: r.submitted }
+    }
+
     return NextResponse.json({
       success: true,
       generated: results.filter(r => r.status === "created").length,
       results,
+      indexnow,
       remaining: BLOG_TOPICS.filter(t => !existingSlugs.has(t.slug)).length,
     })
 
