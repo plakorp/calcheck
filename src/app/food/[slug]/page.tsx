@@ -1,6 +1,6 @@
 import { getAllFoods, getFoodBySlug, getRelatedFoods } from "@/lib/food-data"
 import { generateFoodTitle, generateFoodDescription } from "@/lib/slug"
-import { getArticlesForFood } from "@/lib/blog-data"
+import { getArticlesForFood, getPublishedPosts } from "@/lib/blog-data"
 import { CATEGORIES, type CategoryKey } from "@/types/database"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -93,7 +93,13 @@ export default async function FoodPage({ params }: Props) {
   if (!food) notFound()
 
   const related = await getRelatedFoods(food)
-  const relatedArticles = await getArticlesForFood(food.slug, food.name_th, food.name_en, 3)
+  let relatedArticles = await getArticlesForFood(food.slug, food.name_th, food.name_en, 3)
+  let articlesAreTopicMatch = relatedArticles.length > 0
+  // Fallback: if no topic match found, show latest published articles so the section never looks empty
+  if (relatedArticles.length === 0) {
+    relatedArticles = await getPublishedPosts(3)
+    articlesAreTopicMatch = false
+  }
   const cat = CATEGORIES[food.category as CategoryKey]
 
   // ── Structured data ──────────────────────────────────────────────────────
@@ -153,7 +159,7 @@ export default async function FoodPage({ params }: Props) {
         <h1 className="text-[26px] sm:text-[32px] lg:text-[36px] font-bold text-foreground mb-2 tracking-[-0.5px] leading-tight">
           {food.name_th}
         </h1>
-        {food.name_en && (
+        {food.name_en && /[\u0E00-\u0E7F]/.test(food.name_th) && (
           <p className="text-[16px] sm:text-[18px] text-muted-foreground mb-8 italic">
             {food.name_en.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase())}
           </p>
@@ -292,11 +298,6 @@ export default async function FoodPage({ params }: Props) {
           <AdUnit slot="1234567890" format="horizontal" />
         </div>
 
-        {/* ── Ad Unit 2 ──────────────────────────────────────────────────── */}
-        <div className="mb-16">
-          <AdUnit slot="0987654321" format="auto" />
-        </div>
-
         {/* ── Related foods ──────────────────────────────────────────────── */}
         {related.length > 0 && (
           <section className="mb-16">
@@ -326,7 +327,7 @@ export default async function FoodPage({ params }: Props) {
         {relatedArticles.length > 0 && (
           <section className="mb-16">
             <h2 className="text-[28px] font-semibold text-foreground mb-6 tracking-[-0.5px]">
-              บทความที่เกี่ยวข้องกับ{food.name_th}
+              {articlesAreTopicMatch ? `บทความที่เกี่ยวข้องกับ${food.name_th}` : "บทความน่าสนใจ"}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {relatedArticles.map(article => (
