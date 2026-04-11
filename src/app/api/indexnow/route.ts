@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server"
 import { getAllFoods } from "@/lib/food-data"
+import { submitToIndexNow, SITE_URL } from "@/lib/indexnow"
 
-const INDEXNOW_KEY = "d194a4a22ed5457294861d90b850fe75"
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.checkkal.com"
-const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow"
-
-// POST /api/indexnow
-// Body: { urls?: string[] }  — if empty, submits ALL food pages
-// Protected by CRON_SECRET env var
+/**
+ * POST /api/indexnow
+ * Body: { urls?: string[] }  — if empty, submits ALL food pages
+ * Protected by CRON_SECRET env var (Authorization: Bearer <secret>)
+ */
 export async function POST(req: Request) {
-  // Simple auth check
   const authHeader = req.headers.get("authorization")
   const cronSecret = process.env.CRON_SECRET
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
@@ -20,18 +18,19 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json().catch(() => ({}))
-    urls = body.urls || []
+    urls = Array.isArray(body.urls) ? body.urls : []
   } catch {
     urls = []
   }
 
-  // If no URLs provided, bulk-submit all food pages
+  // If no URLs provided, bulk-submit everything
   if (urls.length === 0) {
     const foods = await getAllFoods()
     urls = [
       SITE_URL,
       `${SITE_URL}/search`,
       `${SITE_URL}/blog`,
+      `${SITE_URL}/sitemap.xml`,
       ...foods.map(f => `${SITE_URL}/food/${f.slug}`),
     ]
   }
@@ -41,30 +40,18 @@ export async function POST(req: Request) {
   const results = []
 
   for (const chunk of chunks) {
-    const payload = {
-      host: new URL(SITE_URL).hostname,
-      key: INDEXNOW_KEY,
-      keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
-      urlList: chunk,
-    }
-
-    const res = await fetch(INDEXNOW_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify(payload),
-    })
-
-    results.push({ submitted: chunk.length, status: res.status })
+    const r = await submitToIndexNow(chunk)
+    results.push(r)
   }
 
   return NextResponse.json({
-    success: true,
+    success: results.every(r => r.ok),
     totalUrls: urls.length,
     results,
   })
 }
 
-// GET /api/indexnow — quick health check / trigger from browser
+/** GET /api/indexnow?secret=... — quick trigger from browser / cron */
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const secret = searchParams.get("secret")
@@ -74,8 +61,15 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  // Delegate to POST logic
-  return POST(new Request(req.url, { method: "POST", headers: req.headers }))
+  return POST(
+    new Request(req.url, {
+      method: "POST",
+      headers: {
+        ...Object.fromEntries(req.headers),
+        authorization: `Bearer ${cronSecret ?? ""}`,
+      },
+    })
+  )
 }
 
 function chunkArray<T>(arr: T[], size: number): T[][] {

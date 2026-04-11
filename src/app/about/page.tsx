@@ -1,14 +1,23 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { supabase } from '@/lib/supabase'
 
 export const metadata: Metadata = {
   title: 'เกี่ยวกับเรา | CheckKal — ฐานข้อมูลโภชนาการอาหารไทย',
   description:
     'CheckKal คือเว็บไซต์ข้อมูลโภชนาการและแคลอรี่อาหารไทยที่ครบครัน ช่วยให้คุณตัดสินใจเรื่องอาหารได้อย่างชาญฉลาด',
-  alternates: { canonical: 'https://checkkal.com/about' },
+  alternates: { canonical: 'https://www.checkkal.com/about' },
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [{ count: foodCount }, { count: blogCount }] = await Promise.all([
+    supabase.from('foods').select('*', { count: 'exact', head: true }),
+    supabase.from('blog_posts').select('*', { count: 'exact', head: true }),
+  ])
+
+  const foodDisplay = foodCount ? foodCount.toLocaleString('th-TH') : '10,000+'
+  const blogDisplay = blogCount ? `${blogCount}+` : '45+'
+
   return (
     <main className="max-w-[1200px] mx-auto px-6 py-16 md:py-20">
       {/* Hero */}
@@ -37,11 +46,11 @@ export default function AboutPage() {
       {/* Stats */}
       <section className="grid grid-cols-3 gap-4 mb-10">
         <div className="bg-[#f0fdf4] rounded-xl p-6 text-center">
-          <div className="text-[36px] font-semibold tracking-[-0.5px] text-[#10b981] mb-1">900+</div>
+          <div className="text-[36px] font-semibold tracking-[-0.5px] text-[#10b981] mb-1">{foodDisplay}</div>
           <div className="text-sm text-[#36342e]">รายการอาหาร</div>
         </div>
         <div className="bg-[#f0fdf4] rounded-xl p-6 text-center">
-          <div className="text-[36px] font-semibold tracking-[-0.5px] text-[#10b981] mb-1">35+</div>
+          <div className="text-[36px] font-semibold tracking-[-0.5px] text-[#10b981] mb-1">{blogDisplay}</div>
           <div className="text-sm text-[#36342e]">บทความโภชนาการ</div>
         </div>
         <div className="bg-[#f0fdf4] rounded-xl p-6 text-center">
@@ -59,7 +68,7 @@ export default function AboutPage() {
             <div>
               <h3 className="font-semibold">ค้นหาข้อมูลอาหาร</h3>
               <p className="text-[#36342e] text-sm">
-                ค้นหาแคลอรี่ โปรตีน ไขมัน คาร์โบไฮเดรต และสารอาหารอื่นๆ จากอาหารกว่า 900 รายการ
+                ค้นหาแคลอรี่ โปรตีน ไขมัน คาร์โบไฮเดรต และสารอาหารอื่นๆ จากอาหารกว่า {foodDisplay} รายการ
               </p>
             </div>
           </div>

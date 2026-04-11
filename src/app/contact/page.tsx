@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'ติดต่อเรา | CheckKal',
   description:
     'ติดต่อทีมงาน CheckKal สำหรับข้อเสนอแนะ การรายงานข้อมูลผิด การร่วมงาน หรือสอบถามข้อมูล',
-  alternates: { canonical: 'https://checkkal.com/contact' },
+  alternates: { canonical: 'https://www.checkkal.com/contact' },
 }
 
 export default function ContactPage() {

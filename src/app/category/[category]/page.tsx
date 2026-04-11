@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = `อาหารหมวด${cat.label} — แคลอรี่และโภชนาการ`
   const description = `รวมข้อมูลแคลอรี่และโภชนาการอาหารหมวด${cat.label}ทั้งหมด พร้อมเปรียบเทียบ — CheckKal`
-  const url = `https://checkkal.com/category/${category}`
+  const url = `https://www.checkkal.com/category/${category}`
 
   return {
     title,
@@ -53,7 +53,7 @@ export default async function CategoryPage({ params }: Props) {
       "@type": "ListItem",
       position: i + 1,
       name: f.name_th,
-      url: `https://checkkal.com/food/${f.slug}`,
+      url: `https://www.checkkal.com/food/${f.slug}`,
     })),
   }
 
@@ -86,9 +86,14 @@ export default async function CategoryPage({ params }: Props) {
                 href={`/food/${food.slug}`}
                 className="bg-card border border-border rounded-[8px] p-4 hover:border-primary transition-colors"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-[24px]">{food.emoji}</span>
-                  <div className="text-[14px] font-medium">{food.name_th}</div>
+                <div className="flex items-start gap-2 mb-3">
+                  <span className="text-[24px] shrink-0">{food.emoji}</span>
+                  <div>
+                    <div className="text-[14px] font-medium line-clamp-2">{food.name_th}</div>
+                    {food.brand && (
+                      <div className="text-[11px] text-muted-foreground mt-0.5">{food.brand}</div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex items-baseline gap-1 mb-2">

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { supabase } from "@/lib/supabase"
 import type { BlogPost, BlogPostInsert } from "@/types/blog"
+import { pingIndexNow, urlsForBlogSlug } from "@/lib/indexnow"
 
 /**
  * GET /api/blog
@@ -161,6 +162,12 @@ export async function POST(request: NextRequest) {
         },
         { status: 500 }
       )
+    }
+
+    // Ping IndexNow for freshly published posts (fire-and-forget)
+    const savedPost = data as { status?: string; slug?: string } | null
+    if (savedPost?.status === "published" && savedPost?.slug) {
+      pingIndexNow(urlsForBlogSlug(savedPost.slug))
     }
 
     return NextResponse.json(

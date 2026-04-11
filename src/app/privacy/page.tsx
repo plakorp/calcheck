@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'นโยบายความเป็นส่วนตัว | CheckKal',
   description: 'นโยบายความเป็นส่วนตัวของ CheckKal.com เว็บไซต์ข้อมูลโภชนาการและแคลอรี่อาหารไทย',
-  alternates: { canonical: 'https://checkkal.com/privacy' },
+  alternates: { canonical: 'https://www.checkkal.com/privacy' },
 }
 
 export default function PrivacyPage() {

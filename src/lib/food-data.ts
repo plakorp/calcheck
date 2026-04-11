@@ -288,17 +288,29 @@ const FALLBACK_FOODS: Food[] = RAW_FOODS.map((food, i) => ({
  */
 export async function getAllFoods(): Promise<Food[]> {
   try {
-    const { data, error } = await supabase
-      .from('foods')
-      .select('*')
-      .order('created_at', { ascending: false })
+    const allFoods: Food[] = []
+    const pageSize = 1000
+    let page = 0
 
-    if (error) {
-      console.error('Supabase error fetching foods:', error)
-      return FALLBACK_FOODS
+    while (true) {
+      const { data, error } = await supabase
+        .from('foods')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .range(page * pageSize, (page + 1) * pageSize - 1)
+
+      if (error) {
+        console.error('Supabase error fetching foods:', error)
+        return allFoods.length > 0 ? allFoods : FALLBACK_FOODS
+      }
+
+      if (!data || data.length === 0) break
+      allFoods.push(...data)
+      if (data.length < pageSize) break
+      page++
     }
 
-    return data || FALLBACK_FOODS
+    return allFoods.length > 0 ? allFoods : FALLBACK_FOODS
   } catch (error) {
     console.error('Error fetching foods:', error)
     return FALLBACK_FOODS
@@ -340,6 +352,7 @@ export async function getFoodsByCategory(category: string): Promise<Food[]> {
       .select('*')
       .eq('category', category)
       .order('name_th', { ascending: true })
+      .range(0, 4999)
 
     if (error) {
       console.error(`Supabase error fetching foods by category ${category}:`, error)

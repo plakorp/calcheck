@@ -5,13 +5,14 @@ import { CATEGORIES, type CategoryKey } from "@/types/database"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import AdUnit from "@/components/AdUnit"
-
-// SSG: generate all food pages at build time
+// Pre-render top 1000 foods at build time, rest rendered on-demand via ISR
 export async function generateStaticParams() {
   const foods = await getAllFoods()
-  return foods.map(food => ({ slug: food.slug }))
+  return foods.slice(0, 1000).map(food => ({ slug: food.slug }))
 }
+
+export const dynamicParams = true
+export const revalidate = 86400 // re-validate cached pages every 24h
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -291,11 +292,6 @@ export default async function FoodPage({ params }: Props) {
               </p>
             )}
           </div>
-        </div>
-
-        {/* ── Ad Unit ────────────────────────────────────────────────────── */}
-        <div className="mb-16">
-          <AdUnit slot="1234567890" format="horizontal" />
         </div>
 
         {/* ── Related foods ──────────────────────────────────────────────── */}
