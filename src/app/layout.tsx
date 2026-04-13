@@ -4,6 +4,7 @@ import Script from "next/script"
 import "./globals.css"
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.checkkal.com"),
   title: {
     default: "CheckKal — แคลอรี่อาหาร โภชนาการครบ ค้นหาง่าย",
     template: "%s | CheckKal",

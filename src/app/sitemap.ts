@@ -26,9 +26,10 @@ export async function generateSitemaps() {
 
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
+  const numId = Number(id) // Next.js may pass id as string
 
   // ── Sitemap 0: static + categories + blog ──
-  if (id === 0) {
+  if (numId === 0) {
     const staticPages: MetadataRoute.Sitemap = [
       { url: SITE_URL, lastModified: now, changeFrequency: "daily", priority: 1.0 },
       { url: `${SITE_URL}/search`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
@@ -68,7 +69,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
 
   // ── Sitemap 1+: food pages (chunked) ──
   const foods = await getAllFoods()
-  const start = (id - 1) * FOODS_PER_SITEMAP
+  const start = (numId - 1) * FOODS_PER_SITEMAP
   const end = start + FOODS_PER_SITEMAP
   const chunk = foods.slice(start, end)
 
