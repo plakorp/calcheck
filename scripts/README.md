@@ -14,7 +14,7 @@ Complements `import-openfoodfacts.mjs`: OFF covers packaged/branded products (Th
    # paste into Supabase Dashboard → SQL Editor → Run
    ```
 2. **Get free API key**: https://fdc.nal.usda.gov/api-key-signup
-3. Add to `calcheck/.env.local`:
+3. Add to `checkkal/.env.local`:
    ```bash
    USDA_API_KEY=your_key_here
    ```
@@ -22,7 +22,7 @@ Complements `import-openfoodfacts.mjs`: OFF covers packaged/branded products (Th
 ### Run
 
 ```bash
-# from calcheck/ root
+# from checkkal/ root
 
 # dry run first — recommend always
 node scripts/import-usda.mjs --dry-run --max-pages=3
@@ -73,7 +73,7 @@ Imports Thailand-tagged food products from [Open Food Facts](https://world.openf
 
 1. Get your **service role key** from Supabase:
    - Dashboard → Project Settings → API → `service_role` key (secret)
-2. Add to `calcheck/.env.local`:
+2. Add to `checkkal/.env.local`:
 
    ```bash
    SUPABASE_SERVICE_ROLE_KEY=eyJ...
@@ -84,7 +84,7 @@ Imports Thailand-tagged food products from [Open Food Facts](https://world.openf
 ### Run
 
 ```bash
-# from calcheck/ root
+# from checkkal/ root
 
 # dry run first (no DB writes) — recommend always running this first
 node scripts/import-openfoodfacts.mjs --dry-run --max-pages=3
@@ -158,15 +158,15 @@ Scheduled via **Claude Code CronCreate** (in-session scheduler). Jobs are set up
 Phase 4 — ตั้ง Claude Code scheduled task ให้รัน import-openfoodfacts.mjs + import-usda.mjs อัตโนมัติทุกวัน
 
 Tasks (ใช้ schedule skill):
-1. Task "checkkal-import-off-daily" — ทุกวัน 06:00 Asia/Bangkok — cd calcheck && node scripts/import-openfoodfacts.mjs --max-pages=5
-2. Task "checkkal-import-usda-daily" — ทุกวัน 07:00 Asia/Bangkok — cd calcheck && node scripts/import-usda.mjs --max-pages=5
+1. Task "checkkal-import-off-daily" — ทุกวัน 06:00 Asia/Bangkok — cd checkkal && node scripts/import-openfoodfacts.mjs --max-pages=5
+2. Task "checkkal-import-usda-daily" — ทุกวัน 07:00 Asia/Bangkok — cd checkkal && node scripts/import-usda.mjs --max-pages=5
 3. List scheduled tasks ให้ดูว่ามีครบ
 ```
 
 ### Manual run (ถ้าต้องการรันเองทันที)
 
 ```bash
-# จาก calcheck/ root
+# จาก checkkal/ root
 node scripts/import-openfoodfacts.mjs --max-pages=5
 node scripts/import-usda.mjs --max-pages=5
 ```
