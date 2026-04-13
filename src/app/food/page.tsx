@@ -1,4 +1,4 @@
-import { getAllFoods } from "@/lib/food-data"
+import { getAllFoods, deduplicateFoods } from "@/lib/food-data"
 import { CATEGORIES, type CategoryKey } from "@/types/database"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -31,7 +31,7 @@ export default async function FoodIndexPage({ searchParams }: Props) {
   const { page: pageStr, cat } = await searchParams
   const page = Math.max(1, Number(pageStr) || 1)
 
-  const allFoods = await getAllFoods()
+  const allFoods = deduplicateFoods(await getAllFoods())
 
   // Filter by category (optional)
   const filtered =

@@ -22,6 +22,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: cleanTitle,
     description: post.meta_description || post.excerpt || undefined,
+    alternates: {
+      canonical: `https://www.checkkal.com/blog/${slug}`,
+    },
   }
 }
 

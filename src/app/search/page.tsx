@@ -1,4 +1,4 @@
-import { searchFoods, getAllFoods } from "@/lib/food-data"
+import { searchFoods, getAllFoods, deduplicateFoods } from "@/lib/food-data"
 import type { Metadata } from "next"
 import Link from "next/link"
 
@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 
 export default async function SearchPage({ searchParams }: Props) {
   const { q } = await searchParams
-  const results = q ? await searchFoods(q) : await getAllFoods()
+  const results = deduplicateFoods(q ? await searchFoods(q) : await getAllFoods())
 
   return (
     <div className="max-w-[1200px] mx-auto px-6 py-16 md:py-20">

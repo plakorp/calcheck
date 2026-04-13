@@ -30,7 +30,7 @@ export function generateSlug(nameTh: string, nameEn?: string | null): string {
  * Generate SEO-friendly title
  */
 export function generateFoodTitle(name: string, calories: number): string {
-  return `${name} กี่แคล? ${Math.round(calories)} kcal | แคลอรี่ โปรตีน ไขมัน คาร์บ — CheckKal`
+  return `${name} กี่แคล? ${Math.round(calories)} kcal | แคลอรี่ โปรตีน ไขมัน คาร์บ`
 }
 
 /**

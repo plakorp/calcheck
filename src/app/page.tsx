@@ -1,10 +1,10 @@
-import { getAllFoods } from "@/lib/food-data"
+import { getAllFoods, deduplicateFoods } from "@/lib/food-data"
 import { getPublishedPosts } from "@/lib/blog-data"
 import { CATEGORIES, type CategoryKey } from "@/types/database"
 import Link from "next/link"
 
 export default async function Home() {
-  const foods = await getAllFoods()
+  const foods = deduplicateFoods(await getAllFoods())
   const popularFoods = foods.slice(0, 8)
   const articles = (await getPublishedPosts(3))
 

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   },
   description: "ค้นหาแคลอรี่และข้อมูลโภชนาการอาหารไทย อาหารเซเว่น อาหารคลีน ครบจบในที่เดียว",
   keywords: ["แคลอรี่", "โภชนาการ", "อาหารไทย", "ลดน้ำหนัก", "แคลอรี่อาหาร", "กี่แคล", "checkkal"],
+  alternates: {
+    canonical: "https://www.checkkal.com",
+  },
   openGraph: {
     type: "website",
     locale: "th_TH",

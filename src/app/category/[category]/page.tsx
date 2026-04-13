@@ -1,4 +1,4 @@
-import { getFoodsByCategory, getAllFoods } from "@/lib/food-data"
+import { getFoodsByCategory, getAllFoods, deduplicateFoods } from "@/lib/food-data"
 import { CATEGORIES, type CategoryKey } from "@/types/database"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -41,7 +41,7 @@ export default async function CategoryPage({ params }: Props) {
   const cat = CATEGORIES[category as CategoryKey]
   if (!cat) notFound()
 
-  const foods = await getFoodsByCategory(category)
+  const foods = deduplicateFoods(await getFoodsByCategory(category))
 
   // ItemList schema
   const listSchema = {

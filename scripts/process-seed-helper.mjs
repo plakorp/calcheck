@@ -75,9 +75,9 @@ function slugify(text) {
 async function fetchSeeds(limit = 20) {
   const { data, error } = await supabase
     .from('food_seeds')
-    .select('id, name_th, name_en, category, subcategory, brand, serving_size, notes')
+    .select('id, name_th, name_en, category, region')
     .eq('status', 'pending')
-    .order('created_at', { ascending: true })
+    .order('id', { ascending: true })
     .limit(limit)
 
   if (error) {
@@ -106,10 +106,11 @@ async function fetchSeeds(limit = 20) {
       name_th: s.name_th,
       name_en: s.name_en || '',
       category: s.category || 'main',
-      subcategory: s.subcategory || null,
-      brand: s.brand || null,
-      serving_size: s.serving_size || '100g',
-      notes: s.notes || null,
+      region: s.region || null,
+      subcategory: null,
+      brand: null,
+      serving_size: '100g',
+      notes: null,
       // Fields for Claude to fill:
       emoji: '',
       slug: slugify(s.name_en || s.name_th),

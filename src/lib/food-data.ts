@@ -436,3 +436,37 @@ export async function getRelatedFoods(food: Food, limit = 5): Promise<Food[]> {
       .slice(0, limit)
   }
 }
+
+/**
+ * Get all serving size variants for a food (same name_th, different serving_size)
+ * Used for the serving size dropdown on the food detail page
+ */
+export async function getFoodVariants(name_th: string): Promise<Food[]> {
+  try {
+    const { data, error } = await supabase
+      .from('foods')
+      .select('*')
+      .eq('name_th', name_th)
+      .order('serving_weight_g', { ascending: true })
+
+    if (error) {
+      return FALLBACK_FOODS.filter(f => f.name_th === name_th)
+    }
+    return data && data.length > 0 ? data : FALLBACK_FOODS.filter(f => f.name_th === name_th)
+  } catch {
+    return FALLBACK_FOODS.filter(f => f.name_th === name_th)
+  }
+}
+
+/**
+ * Deduplicate a list of foods by name_th, keeping only the first (canonical) record per name
+ * Used in list/search views to avoid showing the same food multiple times for different serving sizes
+ */
+export function deduplicateFoods(foods: Food[]): Food[] {
+  const seen = new Set<string>()
+  return foods.filter(food => {
+    if (seen.has(food.name_th)) return false
+    seen.add(food.name_th)
+    return true
+  })
+}

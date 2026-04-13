@@ -1,4 +1,5 @@
-import { getAllFoods, getFoodBySlug, getRelatedFoods } from "@/lib/food-data"
+import { getAllFoods, getFoodBySlug, getRelatedFoods, getFoodVariants, deduplicateFoods } from "@/lib/food-data"
+import { ServingSizeDropdown } from "@/components/ui/ServingSizeDropdown"
 import { generateFoodTitle, generateFoodDescription } from "@/lib/slug"
 import { getArticlesForFood, getPublishedPosts } from "@/lib/blog-data"
 import { CATEGORIES, type CategoryKey } from "@/types/database"
@@ -93,7 +94,11 @@ export default async function FoodPage({ params }: Props) {
   const food = await getFoodBySlug(slug)
   if (!food) notFound()
 
-  const related = await getRelatedFoods(food)
+  const [relatedRaw, variants] = await Promise.all([
+    getRelatedFoods(food),
+    getFoodVariants(food.name_th),
+  ])
+  const related = deduplicateFoods(relatedRaw)
   let relatedArticles = await getArticlesForFood(food.slug, food.name_th, food.name_en, 3)
   let articlesAreTopicMatch = relatedArticles.length > 0
   // Fallback: if no topic match found, show latest published articles so the section never looks empty
@@ -234,10 +239,7 @@ export default async function FoodPage({ params }: Props) {
             {/* Card header */}
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-lg font-semibold text-foreground">ข้อมูลโภชนาการ</h2>
-              <div className="flex items-center gap-1.5 text-sm border border-border rounded-[6px] px-3 py-1.5 text-foreground select-none">
-                <span>หน่วยบริโภค {servingLabel}</span>
-                <span className="text-muted-foreground text-xs">▾</span>
-              </div>
+              <ServingSizeDropdown current={food} variants={variants} />
             </div>
 
             {/* Macro summary box */}
