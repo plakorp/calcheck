@@ -118,7 +118,9 @@ export default async function Home() {
               >
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-medium text-[15px] text-foreground leading-tight">{food.name_th}</span>
-                  <span className="text-[12px] text-muted-foreground ml-2 shrink-0">{food.serving_size}</span>
+                  <span className="text-[12px] text-muted-foreground ml-2 shrink-0">
+                    {food.serving_size?.replace(/[\d.]+/g, (n) => String(Math.round(parseFloat(n) * 10) / 10))}
+                  </span>
                 </div>
                 <div className="flex items-baseline gap-1.5 mb-4">
                   <span className="text-[28px] font-medium text-primary">{Math.round(food.calories)}</span>
@@ -127,15 +129,15 @@ export default async function Home() {
                 {/* Macro row */}
                 <div className="grid grid-cols-3 gap-2">
                   <div className="bg-secondary rounded-[5px] py-2 px-1.5 text-center">
-                    <div className="text-[14px] font-semibold text-foreground">{food.protein}g</div>
+                    <div className="text-[14px] font-semibold text-foreground">{Math.round((food.protein ?? 0) * 10) / 10}g</div>
                     <div className="text-[11px] text-muted-foreground">โปรตีน</div>
                   </div>
                   <div className="bg-secondary rounded-[5px] py-2 px-1.5 text-center">
-                    <div className="text-[14px] font-semibold text-foreground">{food.fat}g</div>
+                    <div className="text-[14px] font-semibold text-foreground">{Math.round((food.fat ?? 0) * 10) / 10}g</div>
                     <div className="text-[11px] text-muted-foreground">ไขมัน</div>
                   </div>
                   <div className="bg-secondary rounded-[5px] py-2 px-1.5 text-center">
-                    <div className="text-[14px] font-semibold text-foreground">{food.carbs}g</div>
+                    <div className="text-[14px] font-semibold text-foreground">{Math.round((food.carbs ?? 0) * 10) / 10}g</div>
                     <div className="text-[11px] text-muted-foreground">คาร์บ</div>
                   </div>
                 </div>
