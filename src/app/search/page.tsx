@@ -63,16 +63,18 @@ export default async function SearchPage({ searchParams }: Props) {
               <span className="text-3xl">{food.emoji}</span>
               <div className="flex-1 min-w-0">
                 <div className="font-medium">{food.name_th}</div>
-                <div className="text-sm text-muted-foreground">{food.serving_size}</div>
+                <div className="text-sm text-muted-foreground">
+                  {food.serving_size?.replace(/[\d.]+/g, (n) => String(Math.round(parseFloat(n) * 10) / 10))}
+                </div>
               </div>
               <div className="text-right">
                 <div className="text-xl font-bold text-primary">{Math.round(food.calories)}</div>
                 <div className="text-xs text-muted-foreground">kcal</div>
               </div>
               <div className="hidden sm:flex gap-3 text-xs text-muted-foreground">
-                <span>P {food.protein}g</span>
-                <span>F {food.fat}g</span>
-                <span>C {food.carbs}g</span>
+                <span>P {Math.round(food.protein * 10) / 10}g</span>
+                <span>F {Math.round(food.fat * 10) / 10}g</span>
+                <span>C {Math.round(food.carbs * 10) / 10}g</span>
               </div>
             </Link>
           ))}

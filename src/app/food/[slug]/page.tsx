@@ -67,6 +67,7 @@ function NutrientRow({
   bottomBorder?: boolean
 }) {
   if (value === null) return null
+  const displayValue = Math.round(value * 10) / 10
   return (
     <div
       className={`flex items-center justify-between py-2.5 border-t border-border ${
@@ -77,7 +78,7 @@ function NutrientRow({
       <span className={`text-sm ${bold ? "font-semibold" : ""} text-foreground`}>
         {label}{" "}
         <span className="font-normal">
-          {value}{" "}
+          {displayValue}{" "}
           <span className="text-muted-foreground text-xs">{unit}</span>
         </span>
       </span>
@@ -103,7 +104,11 @@ export default async function FoodPage({ params }: Props) {
   let articlesAreTopicMatch = relatedArticles.length > 0
   // Fallback: if no topic match found, show latest published articles so the section never looks empty
   if (relatedArticles.length === 0) {
-    relatedArticles = await getPublishedPosts(3)
+    try {
+      relatedArticles = await getPublishedPosts(3)
+    } catch {
+      relatedArticles = []
+    }
     articlesAreTopicMatch = false
   }
   const cat = CATEGORIES[food.category as CategoryKey]
@@ -228,7 +233,7 @@ export default async function FoodPage({ params }: Props) {
             <p className="text-sm text-muted-foreground leading-relaxed">
               ข้อมูลโภชนาการ, แคลอรี่, พลังงาน และสารอาหาร ใน{food.name_th}
               {servingLabel ? ` ในปริมาณ ${servingLabel}` : ""} มีพลังงานทั้งหมด {Math.round(food.calories)} กิโลแคลอรี่,
-              โปรตีน {food.protein} กรัม, คาร์โบไฮเดรต {food.carbs} กรัม, ไขมัน {food.fat} กรัม
+              โปรตีน {Math.round(food.protein * 10) / 10} กรัม, คาร์โบไฮเดรต {Math.round(food.carbs * 10) / 10} กรัม, ไขมัน {Math.round(food.fat * 10) / 10} กรัม
               {food.sodium != null ? " เราสามารถดูรายละเอียดข้อมูลอื่นๆ เช่น เกลือโซเดียม, คอเลสเตอรอล, วิตามิน, ไขมันอิ่มตัว, ไขมันไม่อิ่มตัว, น้ำตาล, กากใยอาหาร ฯลฯ ได้จากตารางด้านล่างครับ" : ""}
             </p>
           </div>
@@ -252,17 +257,17 @@ export default async function FoodPage({ params }: Props) {
                 <div className="text-[11px] text-muted-foreground leading-tight">ต่อ {servingLabel}</div>
               </div>
               <div className="py-4 px-2 text-center">
-                <div className="text-[22px] font-bold text-blue-500 leading-none mb-1">{food.protein}g</div>
+                <div className="text-[22px] font-bold text-blue-500 leading-none mb-1">{Math.round(food.protein * 10) / 10}g</div>
                 <div className="text-[11px] text-muted-foreground leading-tight">โปรตีน</div>
                 <div className="text-[11px] text-blue-500 leading-tight">{Math.round(proteinCalPct)}%</div>
               </div>
               <div className="py-4 px-2 text-center">
-                <div className="text-[22px] font-bold text-amber-500 leading-none mb-1">{food.fat}g</div>
+                <div className="text-[22px] font-bold text-amber-500 leading-none mb-1">{Math.round(food.fat * 10) / 10}g</div>
                 <div className="text-[11px] text-muted-foreground leading-tight">ไขมัน</div>
                 <div className="text-[11px] text-amber-500 leading-tight">{Math.round(fatCalPct)}%</div>
               </div>
               <div className="py-4 px-2 text-center">
-                <div className="text-[22px] font-bold text-primary leading-none mb-1">{food.carbs}g</div>
+                <div className="text-[22px] font-bold text-primary leading-none mb-1">{Math.round(food.carbs * 10) / 10}g</div>
                 <div className="text-[11px] text-muted-foreground leading-tight">คาร์โบไฮเดรต</div>
                 <div className="text-[11px] text-primary leading-tight">{Math.round(carbsCalPct)}%</div>
               </div>
