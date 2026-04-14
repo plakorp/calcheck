@@ -9,7 +9,7 @@ import type { RawFoodResult, SearchResponse } from './types'
 
 const BASE_URL = 'https://th.openfoodfacts.org'
 const API_V2 = `${BASE_URL}/api/v2`
-const USER_AGENT = 'CalCheck/1.0 (nutrition website; pakorn.proy@gmail.com)'
+const USER_AGENT = 'CheckKal/1.0 (nutrition website; pakorn.proy@gmail.com)'
 
 /** Search foods on Open Food Facts */
 export async function searchFoods(

@@ -33,7 +33,7 @@ export default async function AdminDashboard() {
       <div>
         <h1 className="text-3xl font-bold text-foreground mb-2">Dashboard</h1>
         <p className="text-muted-foreground">
-          จัดการฐานข้อมูลอาหาร CalCheck
+          จัดการฐานข้อมูลอาหาร CheckKal
           {error && (
             <span className="text-destructive ml-2">(Supabase error: {error.message})</span>
           )}

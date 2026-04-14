@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import BlogContent from '@/components/BlogContent'
+import AdUnit from '@/components/AdUnit'
 import BlogCardImage from '@/components/BlogCardImage'
 import { stripTitleEmoji } from '@/lib/blog-utils'
 import { getFallbackCover } from '@/lib/blog-cover-fallback'
@@ -125,6 +126,9 @@ export default async function BlogPage({ params }: Props) {
           <article className="mb-8">
             <BlogContent content={post.content} />
           </article>
+
+          {/* ── Ad: Below Article ──────────────────────────────────────────── */}
+          <AdUnit slot="5546466602" className="my-8" />
 
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (

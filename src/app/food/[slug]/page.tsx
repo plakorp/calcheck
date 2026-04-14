@@ -1,11 +1,12 @@
 import { getAllFoods, getFoodBySlug, getRelatedFoods, getFoodVariants, deduplicateFoods } from "@/lib/food-data"
-import { ServingSizeDropdown } from "@/components/ui/ServingSizeDropdown"
+import { NutritionCard } from "@/components/ui/NutritionCard"
 import { generateFoodTitle, generateFoodDescription } from "@/lib/slug"
 import { getArticlesForFood, getPublishedPosts } from "@/lib/blog-data"
 import { CATEGORIES, type CategoryKey } from "@/types/database"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import AdUnit from "@/components/AdUnit"
 // Pre-render top 1000 foods at build time, rest rendered on-demand via ISR
 export async function generateStaticParams() {
   const foods = await getAllFoods()
@@ -46,47 +47,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
     },
   }
-}
-
-// ─── Nutrition row component ──────────────────────────────────────────────────
-function NutrientRow({
-  label,
-  value,
-  unit,
-  dv,
-  indent = false,
-  bold = false,
-  bottomBorder = false,
-}: {
-  label: string
-  value: number | null
-  unit: string
-  dv?: number
-  indent?: boolean
-  bold?: boolean
-  bottomBorder?: boolean
-}) {
-  if (value === null) return null
-  const displayValue = Math.round(value * 10) / 10
-  return (
-    <div
-      className={`flex items-center justify-between py-2.5 border-t border-border ${
-        indent ? "pl-8 pr-4" : "px-4"
-      } ${bottomBorder ? "border-b-2" : ""}`}
-      style={bottomBorder ? { borderBottomColor: "hsl(var(--primary))" } : undefined}
-    >
-      <span className={`text-sm ${bold ? "font-semibold" : ""} text-foreground`}>
-        {label}{" "}
-        <span className="font-normal">
-          {displayValue}{" "}
-          <span className="text-muted-foreground text-xs">{unit}</span>
-        </span>
-      </span>
-      {dv != null && (
-        <span className="text-sm font-medium text-primary">{dv}%</span>
-      )}
-    </div>
-  )
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -135,19 +95,6 @@ export default async function FoodPage({ params }: Props) {
     ],
   }
 
-  // ── Macro calorie % (shown in summary box) ───────────────────────────────
-  const totalCalFromMacros = food.protein * 4 + food.fat * 9 + food.carbs * 4
-  const proteinCalPct = totalCalFromMacros > 0 ? (food.protein * 4 / totalCalFromMacros) * 100 : 0
-  const fatCalPct = totalCalFromMacros > 0 ? (food.fat * 9 / totalCalFromMacros) * 100 : 0
-  const carbsCalPct = totalCalFromMacros > 0 ? (food.carbs * 4 / totalCalFromMacros) * 100 : 0
-
-  // ── % Daily Value (2,000 kcal reference) ────────────────────────────────
-  const fatDV       = Math.round((food.fat / 65) * 100)
-  const sodiumDV    = food.sodium != null ? Math.round((food.sodium / 2400) * 100) : undefined
-  const carbsDV     = Math.round((food.carbs / 300) * 100)
-  const fiberDV     = food.fiber != null ? Math.round((food.fiber / 25) * 100) : undefined
-  const proteinDV   = Math.round((food.protein / 50) * 100)
-
   const servingLabel = food.serving_size ?? "100g"
 
   return (
@@ -183,18 +130,12 @@ export default async function FoodPage({ params }: Props) {
           <div>
             {/* Food image */}
             <div className="rounded-[12px] overflow-hidden aspect-[4/3] mb-6 bg-secondary border border-border">
-              {food.image_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={food.image_url}
-                  alt={food.name_th}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-7xl">
-                  {food.emoji}
-                </div>
-              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={food.image_url || '/placeholder-food.jpg'}
+                alt={food.name_th}
+                className={`w-full h-full ${food.image_url ? 'object-cover' : 'object-contain p-10'}`}
+              />
             </div>
 
             {/* Category */}
@@ -238,67 +179,8 @@ export default async function FoodPage({ params }: Props) {
             </p>
           </div>
 
-          {/* RIGHT: Nutrition Card */}
-          <div className="bg-card border border-border rounded-[12px] p-6 h-fit">
-
-            {/* Card header */}
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-lg font-semibold text-foreground">ข้อมูลโภชนาการ</h2>
-              <ServingSizeDropdown current={food} variants={variants} />
-            </div>
-
-            {/* Macro summary box */}
-            <div className="bg-secondary rounded-[8px] grid grid-cols-4 divide-x divide-border mb-5 overflow-hidden">
-              <div className="py-4 px-2 text-center">
-                <div className="text-[22px] font-bold text-primary leading-none mb-1">
-                  {Math.round(food.calories)}
-                </div>
-                <div className="text-[11px] text-muted-foreground leading-tight">แคลอรี่ (kcal)</div>
-                <div className="text-[11px] text-muted-foreground leading-tight">ต่อ {servingLabel}</div>
-              </div>
-              <div className="py-4 px-2 text-center">
-                <div className="text-[22px] font-bold text-blue-500 leading-none mb-1">{Math.round(food.protein * 10) / 10}g</div>
-                <div className="text-[11px] text-muted-foreground leading-tight">โปรตีน</div>
-                <div className="text-[11px] text-blue-500 leading-tight">{Math.round(proteinCalPct)}%</div>
-              </div>
-              <div className="py-4 px-2 text-center">
-                <div className="text-[22px] font-bold text-amber-500 leading-none mb-1">{Math.round(food.fat * 10) / 10}g</div>
-                <div className="text-[11px] text-muted-foreground leading-tight">ไขมัน</div>
-                <div className="text-[11px] text-amber-500 leading-tight">{Math.round(fatCalPct)}%</div>
-              </div>
-              <div className="py-4 px-2 text-center">
-                <div className="text-[22px] font-bold text-primary leading-none mb-1">{Math.round(food.carbs * 10) / 10}g</div>
-                <div className="text-[11px] text-muted-foreground leading-tight">คาร์โบไฮเดรต</div>
-                <div className="text-[11px] text-primary leading-tight">{Math.round(carbsCalPct)}%</div>
-              </div>
-            </div>
-
-            {/* Nutrition facts table */}
-            <div className="rounded-[8px] overflow-hidden border border-border">
-              {/* Table header */}
-              <div
-                className="px-4 pt-2 pb-1.5 text-right text-[11px] text-muted-foreground bg-card border-t-[3px]"
-                style={{ borderTopColor: "hsl(var(--primary))" }}
-              >
-                % ร้อยละของปริมาณที่แนะนำต่อวัน*
-              </div>
-
-              {/* Rows */}
-              <NutrientRow label="ไขมัน" value={food.fat} unit="g" dv={fatDV} bold />
-              <NutrientRow label="โซเดียม" value={food.sodium ?? null} unit="mg" dv={sodiumDV} bold />
-              <NutrientRow label="คาร์โบไฮเดรต" value={food.carbs} unit="g" dv={carbsDV} bold />
-              <NutrientRow label="ใยอาหาร" value={food.fiber ?? null} unit="g" dv={fiberDV} indent />
-              <NutrientRow label="น้ำตาล" value={food.sugar ?? null} unit="g" indent />
-              <NutrientRow label="โปรตีน" value={food.protein} unit="g" dv={proteinDV} bold bottomBorder />
-            </div>
-
-            {/* Verified badge */}
-            {food.verified && (
-              <p className="text-xs text-primary mt-3 flex items-center gap-1">
-                <span>✓</span> ข้อมูลผ่านการตรวจสอบแล้ว
-              </p>
-            )}
-          </div>
+          {/* RIGHT: Nutrition Card (interactive) */}
+          <NutritionCard food={food} variants={variants} />
         </div>
 
         {/* ── Related foods ──────────────────────────────────────────────── */}
@@ -343,7 +225,7 @@ export default async function FoodPage({ params }: Props) {
                     {article.cover_image_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={article.cover_image_url} alt={article.title} className="w-full h-full object-cover" />
-                    ) : '📝'}
+                    ) : null}
                   </div>
                   <div className="p-5 flex flex-col gap-2 flex-1">
                     <span className="self-start text-[12px] font-semibold uppercase tracking-[0.5px] text-primary">
@@ -363,6 +245,9 @@ export default async function FoodPage({ params }: Props) {
             </div>
           </section>
         )}
+
+        {/* ── Ad: Bottom of page ─────────────────────────────────────────── */}
+        <AdUnit slot="9351026424" className="my-8" />
 
       </main>
     </>

@@ -416,7 +416,7 @@ export default function ImportPage() {
           <h3 className="text-lg font-semibold text-foreground mb-2">ค้นหาอาหารจากแหล่งภายนอก</h3>
           <p className="text-muted-foreground text-sm max-w-md mx-auto">
             พิมพ์ชื่ออาหาร แล้วเลือก source ที่ต้องการ — ระบบจะค้นหาจาก Open Food Facts, FatSecret, USDA
-            แล้ว normalize ข้อมูลให้พร้อม import เข้า CalCheck
+            แล้ว normalize ข้อมูลให้พร้อม import เข้า CheckKal
           </p>
         </div>
       )}

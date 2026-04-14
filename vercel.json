@@ -2,6 +2,14 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "regions": ["sin1"],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "checkkal.com" }],
+      "destination": "https://www.checkkal.com/:path*",
+      "permanent": true
+    }
+  ],
   "crons": [
     {
       "path": "/api/google-index",

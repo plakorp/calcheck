@@ -153,8 +153,7 @@ export default async function FoodIndexPage({ searchParams }: Props) {
                 href={`/food/${food.slug}`}
                 className="bg-card border border-border rounded-[8px] p-4 hover:border-primary transition-colors"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-[24px]">{food.emoji || "🍽️"}</span>
+                <div className="mb-3">
                   <div className="text-[14px] font-medium line-clamp-2">{food.name_th}</div>
                 </div>
 

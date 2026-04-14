@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import Image from "next/image"
 import Script from "next/script"
+import Header from "@/components/Header"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -14,10 +16,19 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.checkkal.com",
   },
+  icons: {
+    icon: [
+      { url: "/logo.png", sizes: "64x64", type: "image/png" },
+      { url: "/logo.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     type: "website",
     locale: "th_TH",
     siteName: "CheckKal",
+    images: [{ url: "/logo.png", width: 64, height: 64, alt: "CheckKal" }],
   },
   robots: {
     index: true,
@@ -61,31 +72,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased min-h-screen">
-        {/* Header — Zapier style */}
-        <header className="bg-card border-b border-border sticky top-0 z-50">
-          <div className="max-w-[1200px] mx-auto flex items-center justify-between py-3 px-6">
-            <Link href="/" className="text-[22px] font-bold text-foreground tracking-[-0.3px] leading-7">
-              CheckKal
-            </Link>
-            <nav className="flex items-center gap-6">
-              <Link href="/category/protein" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
-                หมวดหมู่
-              </Link>
-              <Link href="/bmi-tdee" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
-                BMI & TDEE
-              </Link>
-              <Link href="/blog" className="text-foreground hover:text-primary transition-colors text-[16px] font-medium">
-                บทความ
-              </Link>
-              <Link
-                href="/search"
-                className="ml-2 px-4 py-2 bg-primary text-primary-foreground rounded-[4px] text-[14px] font-semibold hover:opacity-90 transition-opacity"
-              >
-                ค้นหาอาหาร
-              </Link>
-            </nav>
-          </div>
-        </header>
+        <Header />
 
         <main>{children}</main>
 
@@ -135,7 +122,10 @@ export default function RootLayout({
               </div>
             </div>
             <div className="mt-12 pt-6 border-t border-[#36342e] flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-[#939084]">
-              <span>&copy; {new Date().getFullYear()} CheckKal — ข้อมูลโภชนาการอาหารไทย ครบจบในที่เดียว</span>
+              <div className="flex items-center gap-2.5">
+                <Image src="/logo.svg" alt="CheckKal" width={20} height={20} />
+                <span>&copy; {new Date().getFullYear()} CheckKal — ข้อมูลโภชนาการอาหารไทย ครบจบในที่เดียว</span>
+              </div>
               <div className="flex gap-6">
                 <Link href="/about" className="hover:text-[#fffefb] transition-colors">เกี่ยวกับเรา</Link>
                 <Link href="/contact" className="hover:text-[#fffefb] transition-colors">ติดต่อเรา</Link>

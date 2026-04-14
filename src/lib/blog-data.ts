@@ -62,11 +62,11 @@ const BLOG_ARTICLES: BlogArticle[] = [
 <p>บรอกโคลี 100 กรัม มี 34 แคลอรี่ แต่อุดมไปด้วยวิตามิน C, K และไฟเบอร์ เป็นซูเปอร์ฟู้ดที่คนลดน้ำหนักไม่ควรพลาด</p>
 
 <h2>สรุป</h2>
-<p>การเลือกอาหารแคลอรี่ต่ำไม่ได้หมายความว่าต้องกินจืดชืด แค่รู้จักเลือกวัตถุดิบที่ถูกต้อง ก็สามารถกินอร่อยได้โดยไม่ต้องกังวลเรื่องน้ำหนัก ลองเช็คแคลอรี่อาหารอื่นๆ ได้ที่ CalCheck</p>`,
+<p>การเลือกอาหารแคลอรี่ต่ำไม่ได้หมายความว่าต้องกินจืดชืด แค่รู้จักเลือกวัตถุดิบที่ถูกต้อง ก็สามารถกินอร่อยได้โดยไม่ต้องกังวลเรื่องน้ำหนัก ลองเช็คแคลอรี่อาหารอื่นๆ ได้ที่ CheckKal</p>`,
     category: "ลดน้ำหนัก",
     tags: ["ลดน้ำหนัก", "แคลอรี่ต่ำ", "อาหารคลีน", "โปรตีน"],
     image_emoji: "🥗",
-    author: "CalCheck Team",
+    author: "CheckKal Team",
     published_at: "2026-03-20",
     updated_at: "2026-03-20",
     reading_time_min: 5,
@@ -110,11 +110,11 @@ const BLOG_ARTICLES: BlogArticle[] = [
 </ol>
 
 <h2>สรุป</h2>
-<p>การรู้แคลอรี่อาหารใน 7-Eleven ช่วยให้คุณเลือกกินได้ดีขึ้น ไม่ต้องเลิกกินที่เซเว่น แค่เลือกให้เป็น ลองเช็คแคลอรี่อาหารอื่นๆ ที่ CalCheck</p>`,
+<p>การรู้แคลอรี่อาหารใน 7-Eleven ช่วยให้คุณเลือกกินได้ดีขึ้น ไม่ต้องเลิกกินที่เซเว่น แค่เลือกให้เป็น ลองเช็คแคลอรี่อาหารอื่นๆ ที่ CheckKal</p>`,
     category: "แบรนด์",
     tags: ["7-eleven", "แคลอรี่", "ข้าวกล่อง", "ลดน้ำหนัก", "เซเว่น"],
     image_emoji: "🏪",
-    author: "CalCheck Team",
+    author: "CheckKal Team",
     published_at: "2026-03-25",
     updated_at: "2026-03-25",
     reading_time_min: 4,
@@ -171,11 +171,11 @@ const BLOG_ARTICLES: BlogArticle[] = [
 </ol>
 
 <h2>สรุป</h2>
-<p>โปรตีนเป็นสารอาหารที่ขาดไม่ได้ กินให้เพียงพอตามเป้าหมายของคุณ เลือกแหล่งโปรตีนที่หลากหลาย และกระจายให้ทั่วทุกมื้อ ลองเช็คปริมาณโปรตีนในอาหารที่คุณกินได้ที่ CalCheck</p>`,
+<p>โปรตีนเป็นสารอาหารที่ขาดไม่ได้ กินให้เพียงพอตามเป้าหมายของคุณ เลือกแหล่งโปรตีนที่หลากหลาย และกระจายให้ทั่วทุกมื้อ ลองเช็คปริมาณโปรตีนในอาหารที่คุณกินได้ที่ CheckKal</p>`,
     category: "ความรู้โภชนาการ",
     tags: ["โปรตีน", "เพิ่มกล้ามเนื้อ", "สารอาหาร", "ความรู้"],
     image_emoji: "💪",
-    author: "CalCheck Team",
+    author: "CheckKal Team",
     published_at: "2026-04-01",
     updated_at: "2026-04-01",
     reading_time_min: 6,
@@ -215,11 +215,11 @@ const BLOG_ARTICLES: BlogArticle[] = [
 <h2>คำตอบ: ทั้งสองดีทั้งคู่!</h2>
 <p>ถ้าต้องเลือกอย่างเดียว อกไก่ชนะในด้านตัวเลข แต่จริงๆ แล้วทั้งสองอย่างเป็นแหล่งโปรตีนที่ดีมาก ควรกินสลับกันเพื่อความหลากหลาย</p>
 
-<p>ลองเปรียบเทียบอาหารอื่นๆ ด้วยเครื่องมือเปรียบเทียบของ CalCheck ได้เลย</p>`,
+<p>ลองเปรียบเทียบอาหารอื่นๆ ด้วยเครื่องมือเปรียบเทียบของ CheckKal ได้เลย</p>`,
     category: "เปรียบเทียบ",
     tags: ["เปรียบเทียบ", "อกไก่", "หมู", "โปรตีน", "ลดน้ำหนัก"],
     image_emoji: "⚔️",
-    author: "CalCheck Team",
+    author: "CheckKal Team",
     published_at: "2026-04-03",
     updated_at: "2026-04-03",
     reading_time_min: 3,
@@ -264,11 +264,11 @@ const BLOG_ARTICLES: BlogArticle[] = [
 </ul>
 
 <h2>สรุป</h2>
-<p>กินก่อนออกกำลังกาย 30-60 นาที เน้นคาร์บง่ายๆ + โปรตีนเล็กน้อย หลีกเลี่ยงอาหารมันและเผ็ด ลองเช็คแคลอรี่อาหาร Pre-Workout ของคุณได้ที่ CalCheck</p>`,
+<p>กินก่อนออกกำลังกาย 30-60 นาที เน้นคาร์บง่ายๆ + โปรตีนเล็กน้อย หลีกเลี่ยงอาหารมันและเผ็ด ลองเช็คแคลอรี่อาหาร Pre-Workout ของคุณได้ที่ CheckKal</p>`,
     category: "ออกกำลังกาย",
     tags: ["ออกกำลังกาย", "pre-workout", "กล้ามเนื้อ", "พลังงาน"],
     image_emoji: "🏋️",
-    author: "CalCheck Team",
+    author: "CheckKal Team",
     published_at: "2026-04-05",
     updated_at: "2026-04-05",
     reading_time_min: 4,
@@ -446,6 +446,7 @@ export async function getArticlesForFood(
   foodNameEn?: string | null,
   limit = 3
 ): Promise<BlogPost[]> {
+  try {
   const results = new Map<string, BlogPost>()
 
   // (B) related_food_slugs contains this food
@@ -501,6 +502,10 @@ export async function getArticlesForFood(
   }
 
   return Array.from(results.values()).slice(0, limit)
+  } catch (error) {
+    console.error('Error fetching articles for food:', error)
+    return []
+  }
 }
 
 // Generate blog slug from title

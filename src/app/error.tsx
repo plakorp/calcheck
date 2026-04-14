@@ -17,7 +17,6 @@ export default function Error({
   return (
     <main className="max-w-[1200px] mx-auto px-6 py-20 text-center">
       <div className="max-w-md mx-auto">
-        <div className="text-7xl mb-6">⚠️</div>
         <h1 className="text-[32px] font-bold text-foreground mb-3 tracking-[-0.5px]">
           เกิดข้อผิดพลาด
         </h1>

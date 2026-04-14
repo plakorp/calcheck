@@ -22,7 +22,6 @@ export default async function AboutPage() {
     <main className="max-w-[1200px] mx-auto px-6 py-16 md:py-20">
       {/* Hero */}
       <div className="text-center mb-12">
-        <div className="text-6xl mb-4">🥗</div>
         <h1 className="text-[36px] font-semibold tracking-[-0.5px] mb-4">เกี่ยวกับ CheckKal</h1>
         <p className="text-base text-[#36342e]">
           ฐานข้อมูลโภชนาการอาหารไทย ครบ ถูกต้อง ใช้งานง่าย
@@ -64,7 +63,6 @@ export default async function AboutPage() {
         <h2 className="text-[24px] font-semibold tracking-[-0.5px] mb-4">สิ่งที่เราให้บริการ</h2>
         <div className="space-y-4">
           <div className="flex gap-3">
-            <span className="text-2xl">🔍</span>
             <div>
               <h3 className="font-semibold">ค้นหาข้อมูลอาหาร</h3>
               <p className="text-[#36342e] text-sm">
@@ -73,7 +71,6 @@ export default async function AboutPage() {
             </div>
           </div>
           <div className="flex gap-3">
-            <span className="text-2xl">⚖️</span>
             <div>
               <h3 className="font-semibold">เปรียบเทียบอาหาร</h3>
               <p className="text-[#36342e] text-sm">
@@ -82,7 +79,6 @@ export default async function AboutPage() {
             </div>
           </div>
           <div className="flex gap-3">
-            <span className="text-2xl">📚</span>
             <div>
               <h3 className="font-semibold">บทความโภชนาการ</h3>
               <p className="text-[#36342e] text-sm">
@@ -91,7 +87,6 @@ export default async function AboutPage() {
             </div>
           </div>
           <div className="flex gap-3">
-            <span className="text-2xl">📊</span>
             <div>
               <h3 className="font-semibold">ดูตามหมวดหมู่</h3>
               <p className="text-[#36342e] text-sm">

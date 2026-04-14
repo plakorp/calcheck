@@ -11,7 +11,6 @@ export default function ContactPage() {
   return (
     <main className="max-w-[1200px] mx-auto px-6 py-16 md:py-20">
       <div className="text-center mb-10">
-        <div className="text-5xl mb-4">✉️</div>
         <h1 className="text-[36px] font-semibold tracking-[-0.5px] mb-2">ติดต่อเรา</h1>
         <p className="text-[#36342e]">
           มีคำถาม ข้อเสนอแนะ หรืออยากร่วมงานกับ CheckKal? เราอยากได้ยินจากคุณ
@@ -21,7 +20,7 @@ export default function ContactPage() {
       {/* Contact Options */}
       <div className="grid gap-4 mb-10">
         <div className="border rounded-xl p-6">
-          <h2 className="font-semibold text-lg mb-1">📧 อีเมล</h2>
+          <h2 className="font-semibold text-lg mb-1">อีเมล</h2>
           <p className="text-[#36342e] text-sm mb-2">สำหรับทุกเรื่อง ตอบกลับภายใน 1-3 วันทำการ</p>
           <a
             href="mailto:hello@checkkal.com"
@@ -32,7 +31,7 @@ export default function ContactPage() {
         </div>
 
         <div className="border rounded-xl p-6">
-          <h2 className="font-semibold text-lg mb-1">🐛 รายงานข้อมูลผิดพลาด</h2>
+          <h2 className="font-semibold text-lg mb-1">รายงานข้อมูลผิดพลาด</h2>
           <p className="text-[#36342e] text-sm mb-2">
             พบข้อมูลโภชนาการที่ไม่ถูกต้อง? แจ้งเราได้เลย เราจะรีบแก้ไข
           </p>
@@ -45,7 +44,7 @@ export default function ContactPage() {
         </div>
 
         <div className="border rounded-xl p-6">
-          <h2 className="font-semibold text-lg mb-1">🤝 ร่วมงานและสปอนเซอร์</h2>
+          <h2 className="font-semibold text-lg mb-1">ร่วมงานและสปอนเซอร์</h2>
           <p className="text-[#36342e] text-sm mb-2">
             สนใจลงโฆษณา บทความสปอนเซอร์ หรือร่วมมือทางธุรกิจ?
           </p>
@@ -58,7 +57,7 @@ export default function ContactPage() {
         </div>
 
         <div className="border rounded-xl p-6">
-          <h2 className="font-semibold text-lg mb-1">➕ แนะนำอาหารเพิ่มเติม</h2>
+          <h2 className="font-semibold text-lg mb-1">แนะนำอาหารเพิ่มเติม</h2>
           <p className="text-[#36342e] text-sm mb-2">
             อยากเห็นอาหารอะไรในฐานข้อมูล? แนะนำมาได้เลย
           </p>

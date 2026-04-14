@@ -170,7 +170,7 @@ export default async function Home() {
                 <div className="bg-secondary h-44 w-full flex items-center justify-center text-5xl">
                   {article.cover_image_url ? (
                     <img src={article.cover_image_url} alt={article.title} className="w-full h-full object-cover" />
-                  ) : '📝'}
+                  ) : null}
                 </div>
                 <div className="p-5 flex flex-col gap-2.5">
                   <span className="self-start text-[12px] font-semibold uppercase tracking-[0.5px] text-primary">
