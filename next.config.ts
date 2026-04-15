@@ -13,6 +13,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      { source: '/food/yogurt-plain', destination: '/food/plain-yogurt', permanent: true },
+      { source: '/food/kimchi', destination: '/food/cabbage-kimchi-usda170392', permanent: true },
+      { source: '/blog/guide', destination: '/blog', permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;
