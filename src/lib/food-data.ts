@@ -286,6 +286,41 @@ const FALLBACK_FOODS: Food[] = RAW_FOODS.map((food, i) => ({
  * Get all foods from Supabase
  * Falls back to static data if Supabase is unavailable
  */
+/**
+ * Lightweight fetch for sitemap generation — only slug + updated_at
+ * Avoids fetching all nutrient fields for 10k+ rows which can timeout
+ */
+export async function getAllFoodSlugs(): Promise<{ slug: string; updated_at: string }[]> {
+  try {
+    const allSlugs: { slug: string; updated_at: string }[] = []
+    const pageSize = 1000
+    let page = 0
+
+    while (true) {
+      const { data, error } = await supabase
+        .from('foods')
+        .select('slug, updated_at')
+        .order('created_at', { ascending: false })
+        .range(page * pageSize, (page + 1) * pageSize - 1)
+
+      if (error) {
+        console.error('Supabase error fetching food slugs:', error)
+        return allSlugs
+      }
+
+      if (!data || data.length === 0) break
+      allSlugs.push(...data)
+      if (data.length < pageSize) break
+      page++
+    }
+
+    return allSlugs
+  } catch (error) {
+    console.error('Error fetching food slugs:', error)
+    return []
+  }
+}
+
 export async function getAllFoods(): Promise<Food[]> {
   try {
     const allFoods: Food[] = []
@@ -323,18 +358,19 @@ export async function getAllFoods(): Promise<Food[]> {
  */
 export async function getFoodBySlug(slug: string): Promise<Food | null> {
   try {
+    // .maybeSingle() returns null (not error) when 0 rows found — avoids PGRST116 500s
     const { data, error } = await supabase
       .from('foods')
       .select('*')
       .eq('slug', slug)
-      .single()
+      .maybeSingle()
 
     if (error) {
       console.error(`Supabase error fetching food by slug ${slug}:`, error)
       return FALLBACK_FOODS.find(f => f.slug === slug) || null
     }
 
-    return data || null
+    return data ?? (FALLBACK_FOODS.find(f => f.slug === slug) || null)
   } catch (error) {
     console.error(`Error fetching food by slug ${slug}:`, error)
     return FALLBACK_FOODS.find(f => f.slug === slug) || null

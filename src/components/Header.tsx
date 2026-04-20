@@ -40,8 +40,9 @@ export default function Header() {
           </Link>
           <Link
             href="/search"
-            className="ml-2 px-4 py-2 bg-primary text-primary-foreground rounded-[4px] text-[14px] font-semibold hover:opacity-90 transition-opacity"
+            className="ml-2 inline-flex items-center gap-2 px-3.5 py-2 rounded-[10px] text-[13px] font-medium text-foreground border border-border bg-card hover:border-primary hover:text-primary transition-colors"
           >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             ค้นหาอาหาร
           </Link>
         </nav>

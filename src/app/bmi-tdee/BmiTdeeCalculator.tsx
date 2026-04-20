@@ -29,7 +29,6 @@ interface TdeeResult {
 interface MacroPreset {
   key: PresetKey
   label: string
-  emoji: string
   desc: string
   p: number
   f: number
@@ -38,19 +37,19 @@ interface MacroPreset {
 }
 
 const MACRO_PRESETS: MacroPreset[] = [
-  { key: "keto",        label: "คีโต",         emoji: "🥑", desc: "ไขมันสูง คาร์บต่ำมาก",       p: 25, f: 70, c: 5,  color: "#f59e0b" },
-  { key: "lowcarb",     label: "โลว์คาร์บ",    emoji: "🥩", desc: "คาร์บต่ำ โปรตีนสูง",        p: 35, f: 45, c: 20, color: "#f97316" },
-  { key: "balanced",    label: "บาลานซ์/คลีน", emoji: "🥗", desc: "สัดส่วนสมดุล เหมาะทั่วไป",  p: 30, f: 30, c: 40, color: "#22c55e" },
-  { key: "highprotein", label: "สายกล้าม",      emoji: "💪", desc: "โปรตีนสูง เพิ่มกล้ามเนื้อ", p: 40, f: 25, c: 35, color: "#3b82f6" },
-  { key: "custom",      label: "กำหนดเอง",      emoji: "⚙️", desc: "ปรับ % ตามต้องการ",          p: 30, f: 30, c: 40, color: "#8b5cf6" },
+  { key: "keto",        label: "คีโต", desc: "ไขมันสูง คาร์บต่ำมาก",       p: 25, f: 70, c: 5,  color: "#f59e0b" },
+  { key: "lowcarb",     label: "โลว์คาร์บ", desc: "คาร์บต่ำ โปรตีนสูง",        p: 35, f: 45, c: 20, color: "#f97316" },
+  { key: "balanced",    label: "บาลานซ์/คลีน", desc: "สัดส่วนสมดุล เหมาะทั่วไป",  p: 30, f: 30, c: 40, color: "#22c55e" },
+  { key: "highprotein", label: "สายกล้าม", desc: "โปรตีนสูง เพิ่มกล้ามเนื้อ", p: 40, f: 25, c: 35, color: "#3b82f6" },
+  { key: "custom",      label: "กำหนดเอง", desc: "ปรับ % ตามต้องการ",          p: 30, f: 30, c: 40, color: "#8b5cf6" },
 ]
 
-const GOAL_OPTIONS: { key: GoalKey; label: string; icon: string }[] = [
-  { key: "lose1",    label: "ลด -1 กก./สัปดาห์",   icon: "📉" },
-  { key: "lose05",   label: "ลด -0.5 กก./สัปดาห์", icon: "📊" },
-  { key: "maintain", label: "รักษาน้ำหนัก",          icon: "⚖️" },
-  { key: "gain05",   label: "เพิ่ม +0.5 กก./สัปดาห์", icon: "📈" },
-  { key: "gain1",    label: "เพิ่ม +1 กก./สัปดาห์", icon: "💪" },
+const GOAL_OPTIONS: { key: GoalKey; label: string }[] = [
+  { key: "lose1",    label: "ลด -1 กก./สัปดาห์", },
+  { key: "lose05",   label: "ลด -0.5 กก./สัปดาห์" },
+  { key: "maintain", label: "รักษาน้ำหนัก",        },
+  { key: "gain05",   label: "เพิ่ม +0.5 กก./สัปดาห์" },
+  { key: "gain1",    label: "เพิ่ม +1 กก./สัปดาห์" },
 ]
 
 const activityOptions: { value: ActivityLevel; label: string; desc: string; multiplier: number }[] = [
@@ -139,7 +138,7 @@ function MacroSection({ tdeeResult }: { tdeeResult: TdeeResult }) {
                   : "bg-background text-foreground border-border hover:border-foreground/40"
               }`}
             >
-              <span>{g.icon}</span>{g.label}
+{g.label}
             </button>
           ))}
         </div>
@@ -163,7 +162,6 @@ function MacroSection({ tdeeResult }: { tdeeResult: TdeeResult }) {
               }`}
               style={selectedPreset === p.key ? { borderColor: p.color } : {}}
             >
-              <div className="text-[18px] mb-0.5">{p.emoji}</div>
               <div className={`text-[13px] font-semibold ${selectedPreset === p.key ? "" : "text-foreground"}`}
                 style={selectedPreset === p.key ? { color: p.color } : {}}>
                 {p.label}
@@ -182,11 +180,11 @@ function MacroSection({ tdeeResult }: { tdeeResult: TdeeResult }) {
       {/* Custom sliders */}
       {selectedPreset === "custom" && (
         <div className="mb-5 bg-secondary rounded-[6px] p-4">
-          <p className="text-[13px] font-medium text-foreground mb-4">ปรับสัดส่วน % (รวม = {total}%{total !== 100 ? <span className="text-destructive"> ⚠ ต้องรวม 100%</span> : ""})</p>
+          <p className="text-[13px] font-medium text-foreground mb-4">ปรับสัดส่วน % (รวม = {total}%{total !== 100 ? <span className="text-destructive"> ต้องรวม 100%</span> : ""})</p>
           {[
-            { label: "🟦 โปรตีน (P)", val: customP, set: (v: number) => handleCustomSlider("p", v), color: "#3b82f6" },
-            { label: "🟨 ไขมัน (F)",  val: customF, set: (v: number) => handleCustomSlider("f", v), color: "#f59e0b" },
-            { label: "🟩 คาร์บ (C)",  val: customC, set: (v: number) => handleCustomSlider("c", v), color: "#22c55e" },
+            { label: "โปรตีน (P)", val: customP, set: (v: number) => handleCustomSlider("p", v), color: "#3b82f6" },
+            { label: "ไขมัน (F)",  val: customF, set: (v: number) => handleCustomSlider("f", v), color: "#f59e0b" },
+            { label: "คาร์บ (C)",  val: customC, set: (v: number) => handleCustomSlider("c", v), color: "#22c55e" },
           ].map((s) => (
             <div key={s.label} className="mb-3">
               <div className="flex justify-between mb-1">
@@ -210,7 +208,7 @@ function MacroSection({ tdeeResult }: { tdeeResult: TdeeResult }) {
           <div className="flex items-center justify-between mb-4">
             <span className="text-[14px] font-semibold text-foreground">ปริมาณที่แนะนำต่อวัน</span>
             <span className="text-[12px] text-muted-foreground bg-secondary px-2 py-1 rounded-[4px]">
-              {preset.emoji} {selectedPreset === "custom" ? "Custom" : preset.label}
+              {selectedPreset === "custom" ? "Custom" : preset.label}
             </span>
           </div>
 
@@ -352,7 +350,6 @@ export default function BmiTdeeCalculator() {
           <div className="bg-card border border-border rounded-[8px] p-6">
             {!bmiResult ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-10">
-                <div className="text-[48px] mb-3">⚖️</div>
                 <p className="text-muted-foreground text-[15px]">ใส่น้ำหนักและส่วนสูง<br />แล้วกด &ldquo;คำนวณ BMI&rdquo;</p>
               </div>
             ) : (
@@ -410,7 +407,7 @@ export default function BmiTdeeCalculator() {
                       className={`flex-1 py-2.5 rounded-[4px] text-[14px] font-medium border transition-all ${
                         gender === g ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground border-border hover:border-primary"
                       }`}>
-                      {g === "male" ? "👨 ชาย" : "👩 หญิง"}
+                      {g === "male" ? "ชาย" : "หญิง"}
                     </button>
                   ))}
                 </div>
@@ -457,7 +454,6 @@ export default function BmiTdeeCalculator() {
           <div className="bg-card border border-border rounded-[8px] p-6">
             {!tdeeResult ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-10">
-                <div className="text-[48px] mb-3">🔥</div>
                 <p className="text-muted-foreground text-[15px]">กรอกข้อมูลและกด<br />&ldquo;คำนวณ TDEE & Macros&rdquo;</p>
               </div>
             ) : (
@@ -489,15 +485,14 @@ export default function BmiTdeeCalculator() {
                 <h3 className="text-[14px] font-semibold text-foreground mb-2">แผนตามเป้าหมาย</h3>
                 <div className="space-y-1.5 mb-0">
                   {[
-                    { label: "ลดน้ำหนัก -1 กก./สัปดาห์",    kcal: tdeeResult.lose1,    color: "#ef4444", icon: "📉" },
-                    { label: "ลดน้ำหนัก -0.5 กก./สัปดาห์",  kcal: tdeeResult.lose05,   color: "#f97316", icon: "📊" },
-                    { label: "รักษาน้ำหนักเดิม",              kcal: tdeeResult.maintain, color: "#22c55e", icon: "⚖️" },
-                    { label: "เพิ่มน้ำหนัก +0.5 กก./สัปดาห์",kcal: tdeeResult.gain05,   color: "#3b82f6", icon: "📈" },
-                    { label: "เพิ่มน้ำหนัก +1 กก./สัปดาห์",  kcal: tdeeResult.gain1,    color: "#8b5cf6", icon: "💪" },
+                    { label: "ลดน้ำหนัก -1 กก./สัปดาห์",    kcal: tdeeResult.lose1,    color: "#ef4444" },
+                    { label: "ลดน้ำหนัก -0.5 กก./สัปดาห์",  kcal: tdeeResult.lose05,   color: "#f97316" },
+                    { label: "รักษาน้ำหนักเดิม",              kcal: tdeeResult.maintain, color: "#22c55e" },
+                    { label: "เพิ่มน้ำหนัก +0.5 กก./สัปดาห์",kcal: tdeeResult.gain05,   color: "#3b82f6" },
+                    { label: "เพิ่มน้ำหนัก +1 กก./สัปดาห์",  kcal: tdeeResult.gain1,    color: "#8b5cf6" },
                   ].map((goal) => (
                     <div key={goal.label} className="flex items-center justify-between px-3 py-2 rounded-[4px] bg-secondary">
                       <div className="flex items-center gap-2">
-                        <span className="text-[13px]">{goal.icon}</span>
                         <span className="text-[12px] text-foreground">{goal.label}</span>
                       </div>
                       <span className="text-[14px] font-semibold" style={{ color: goal.color }}>

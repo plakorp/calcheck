@@ -1,4 +1,4 @@
-import { getAllFoods } from "@/lib/food-data"
+import { getAllFoodSlugs } from "@/lib/food-data"
 import { getAllArticles } from "@/lib/blog-data"
 import { getPublishedPosts } from "@/lib/blog-data"
 import { CATEGORIES } from "@/types/database"
@@ -7,7 +7,7 @@ import type { MetadataRoute } from "next"
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.checkkal.com"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const foods = await getAllFoods()
+  const foods = await getAllFoodSlugs()
   const now = new Date()
 
   // Static pages

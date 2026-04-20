@@ -114,7 +114,7 @@ export default async function BlogPage({ params }: Props) {
               </span>
               {publishedDate && <span className="text-sm text-[#36342e]">{publishedDate}</span>}
               {post.author && <span className="text-sm text-[#36342e]">โดย {post.author}</span>}
-              {post.view_count > 0 && <span className="text-sm text-[#36342e]">👁️ {post.view_count.toLocaleString('th-TH')} ครั้ง</span>}
+              {post.view_count > 0 && <span className="text-sm text-[#36342e]">{post.view_count.toLocaleString('th-TH')} ครั้ง</span>}
             </div>
 
             {post.excerpt && (
