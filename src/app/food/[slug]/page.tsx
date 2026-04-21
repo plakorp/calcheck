@@ -97,10 +97,46 @@ export default async function FoodPage({ params }: Props) {
 
   const servingLabel = food.serving_size ?? "100g"
 
+  // ── FAQ — visible content for AdSense quality (not just schema) ──────────
+  const faqs = [
+    {
+      q: `${food.name_th} มีกี่แคลอรี่?`,
+      a: `${food.name_th} ${servingLabel ? `(${servingLabel})` : ""} มีพลังงาน ${Math.round(food.calories)} กิโลแคลอรี่ โดยแบ่งเป็นโปรตีน ${Math.round(food.protein * 10) / 10}g คาร์โบไฮเดรต ${Math.round(food.carbs * 10) / 10}g และไขมัน ${Math.round(food.fat * 10) / 10}g`,
+    },
+    {
+      q: `${food.name_th} เหมาะกับคนลดน้ำหนักไหม?`,
+      a: food.calories <= 150
+        ? `${food.name_th} มีแคลอรี่ค่อนข้างต่ำ (${Math.round(food.calories)} kcal) เหมาะสำหรับคนลดน้ำหนักที่ต้องการควบคุมพลังงาน แต่ควรดูปริมาณการกินเป็นหลัก`
+        : food.calories <= 300
+        ? `${food.name_th} มีแคลอรี่ปานกลาง (${Math.round(food.calories)} kcal) สามารถกินได้ระหว่างลดน้ำหนัก แต่ควรควบคุมปริมาณและกินร่วมกับผักเพิ่มความอิ่ม`
+        : `${food.name_th} มีแคลอรี่ค่อนข้างสูง (${Math.round(food.calories)} kcal) หากอยู่ในช่วงลดน้ำหนักควรกินในปริมาณน้อยหรือเลือก${cat?.label ?? 'อาหาร'}ที่มีแคลอรี่ต่ำกว่าแทน`,
+    },
+    {
+      q: `${food.name_th} มีโปรตีนเท่าไหร่?`,
+      a: `${food.name_th} มีโปรตีน ${Math.round(food.protein * 10) / 10} กรัม${servingLabel ? `ต่อ${servingLabel}` : ""} ${food.protein >= 15 ? "ถือว่าเป็นแหล่งโปรตีนที่ดี เหมาะสำหรับคนที่ต้องการเสริมกล้ามเนื้อหรือออกกำลังกาย" : food.protein >= 8 ? "มีโปรตีนพอใช้ได้ ช่วยเสริมการสร้างกล้ามเนื้อและซ่อมแซมเนื้อเยื่อในร่างกาย" : "มีโปรตีนในระดับต่ำ หากต้องการโปรตีนเพิ่มควรกินร่วมกับอาหารโปรตีนสูงอื่นๆ"}`,
+    },
+    ...(food.sodium != null ? [{
+      q: `${food.name_th} มีโซเดียมสูงไหม?`,
+      a: `${food.name_th} มีโซเดียม ${food.sodium} mg${servingLabel ? `ต่อ${servingLabel}` : ""} ${food.sodium >= 600 ? "ซึ่งค่อนข้างสูง ผู้ที่มีปัญหาความดันโลหิตสูงหรือโรคไตควรระวังการกินในปริมาณมาก" : food.sodium >= 300 ? "ในระดับปานกลาง ควรดูแลปริมาณโซเดียมรวมต่อวันไม่เกิน 2,300 mg" : "ในระดับต่ำ เหมาะสำหรับผู้ที่ต้องการควบคุมโซเดียม"}`,
+    }] : []),
+  ]
+
+  // ── FAQ Schema ───────────────────────────────────────────────────────────
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(nutritionSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <main className="max-w-[1200px] mx-auto px-6 py-10">
 
@@ -170,18 +206,43 @@ export default async function FoodPage({ params }: Props) {
               </div>
             </div>
 
-            {/* Description */}
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              ข้อมูลโภชนาการ, แคลอรี่, พลังงาน และสารอาหาร ใน{food.name_th}
-              {servingLabel ? ` ในปริมาณ ${servingLabel}` : ""} มีพลังงานทั้งหมด {Math.round(food.calories)} กิโลแคลอรี่,
-              โปรตีน {Math.round(food.protein * 10) / 10} กรัม, คาร์โบไฮเดรต {Math.round(food.carbs * 10) / 10} กรัม, ไขมัน {Math.round(food.fat * 10) / 10} กรัม
-              {food.sodium != null ? " เราสามารถดูรายละเอียดข้อมูลอื่นๆ เช่น เกลือโซเดียม, คอเลสเตอรอล, วิตามิน, ไขมันอิ่มตัว, ไขมันไม่อิ่มตัว, น้ำตาล, กากใยอาหาร ฯลฯ ได้จากตารางด้านล่างครับ" : ""}
-            </p>
+            {/* Description — AI-generated unique content (description_th) or fallback template */}
+            {food.description_th ? (
+              <div className="space-y-3">
+                {food.description_th.split('\n\n').filter(p => p.trim()).map((paragraph, i) => (
+                  <p key={i} className="text-sm text-muted-foreground leading-relaxed">
+                    {paragraph.trim()}
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                ข้อมูลโภชนาการ, แคลอรี่, พลังงาน และสารอาหาร ใน{food.name_th}
+                {servingLabel ? ` ในปริมาณ ${servingLabel}` : ""} มีพลังงานทั้งหมด {Math.round(food.calories)} กิโลแคลอรี่,
+                โปรตีน {Math.round(food.protein * 10) / 10} กรัม, คาร์โบไฮเดรต {Math.round(food.carbs * 10) / 10} กรัม, ไขมัน {Math.round(food.fat * 10) / 10} กรัม
+                {food.sodium != null ? " เราสามารถดูรายละเอียดข้อมูลอื่นๆ เช่น เกลือโซเดียม, คอเลสเตอรอล, วิตามิน, ไขมันอิ่มตัว, ไขมันไม่อิ่มตัว, น้ำตาล, กากใยอาหาร ฯลฯ ได้จากตารางด้านล่างครับ" : ""}
+              </p>
+            )}
           </div>
 
           {/* RIGHT: Nutrition Card (interactive) */}
           <NutritionCard food={food} variants={variants} />
         </div>
+
+        {/* ── FAQ — visible content (key for AdSense quality) ────────────── */}
+        <section className="mb-16">
+          <h2 className="text-[22px] font-semibold text-foreground mb-6 tracking-[-0.3px]">
+            คำถามที่พบบ่อยเกี่ยวกับ{food.name_th}
+          </h2>
+          <div className="space-y-4">
+            {faqs.map(({ q, a }, i) => (
+              <div key={i} className="rounded-[8px] border border-border bg-card p-5">
+                <h3 className="text-[15px] font-semibold text-foreground mb-2">{q}</h3>
+                <p className="text-[14px] text-muted-foreground leading-relaxed">{a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* ── Related foods ──────────────────────────────────────────────── */}
         {related.length > 0 && (
